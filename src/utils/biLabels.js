@@ -42,6 +42,7 @@ export const ROZNAMCHA_TYPE_BI = {
   commission_payment:'Commission Payment / تادیه کمیشن',
   dealer_payout:     'Dealer Payout / پرداخت به دیلر',
   commission_fee:    'Commission Fee / فیس کمیشن',
+  batch:             'Chicken Batch / دوره مرغ',
 }
 
 // Farm ownership (Anas Hadi runs own + contractor farms)

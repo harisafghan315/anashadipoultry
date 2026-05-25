@@ -58,6 +58,7 @@ function EntryCard({ entry, onDelete, onEdit }) {
     commission_payment:{ label: ROZNAMCHA_TYPE_BI.commission_payment,badge: 'bg-green-100 text-green-700',   border: 'border-l-green-500',  icon: '💵', amountColor: 'text-green-700' },
     dealer_payout:     { label: ROZNAMCHA_TYPE_BI.dealer_payout,     badge: 'bg-rose-100 text-rose-700',     border: 'border-l-rose-400',   icon: '💸', amountColor: 'text-rose-700' },
     commission_fee:    { label: ROZNAMCHA_TYPE_BI.commission_fee,    badge: 'bg-red-100 text-red-700',       border: 'border-l-red-400',    icon: '🧾', amountColor: 'text-red-700' },
+    batch:             { label: ROZNAMCHA_TYPE_BI.batch,             badge: 'bg-amber-100 text-amber-700',   border: 'border-l-amber-500',  icon: '🐔', amountColor: 'text-amber-700' },
   }
 
   const cfg = TYPE_CONFIG[entry._type]
@@ -177,6 +178,15 @@ function EntryCard({ entry, onDelete, onEdit }) {
       detail = entry.note || ''
       amount = entry.amount || 0
       break
+    case 'batch':
+      title = `🐔 ${t('batches.batch') || 'Batch'} #${entry.batch_number} → ${lf(entry.farms, 'name', lang) || '—'}`
+      detail = [
+        entry.initial_chicken_count ? `${entry.initial_chicken_count} × ${formatCurrency(entry.price_per_chicken || 0)}` : '',
+        entry.suppliers?.company_name ? `${t('common.from')} ${entry.suppliers.company_name}` : '',
+        entry.notes || '',
+      ].filter(Boolean).join(' · ')
+      amount = (entry.initial_chicken_count || 0) * (entry.price_per_chicken || 0)
+      break
   }
 
   return (
@@ -252,6 +262,7 @@ export default function Roznamcha() {
   const loansBorrowed = entries.filter(e => e._type === 'cash_ledger' && e.type === 'borrowed')
   const cashAdjIn     = entries.filter(e => e._type === 'cash_movement' && e.source === 'manual' && e.direction === 'in')
   const cashAdjOut    = entries.filter(e => e._type === 'cash_movement' && e.source === 'manual' && e.direction === 'out')
+  const batches       = entries.filter(e => e._type === 'batch')
   const commSales     = entries.filter(e => e._type === 'commission_sale')
   const commPays      = entries.filter(e => e._type === 'commission_payment')
   const dealerPayouts = entries.filter(e => e._type === 'dealer_payout')
@@ -273,7 +284,8 @@ export default function Roznamcha() {
                       + sum(dealerPayouts, 'amount')
                       + sum(commFees, 'amount')
   const debtFromSales = sum(sales, 'remaining')
-  const dispatched    = sum(dispatches, 'total_amount') + sum(marketTxs, 'total_amount') + sum(commSales, 'total_amount')
+  const batchValue    = batches.reduce((s, b) => s + (b.initial_chicken_count || 0) * (b.price_per_chicken || 0), 0)
+  const dispatched    = sum(dispatches, 'total_amount') + sum(marketTxs, 'total_amount') + sum(commSales, 'total_amount') + batchValue
   const stockSpent    = sum(stockBuys, 'total_cost')
   const netCash       = moneyIn - moneyOut
 
@@ -343,7 +355,7 @@ export default function Roznamcha() {
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
           <p className="text-xs font-medium text-blue-700 mb-1">{t('roznamcha.dispatched')}</p>
           <p className="text-xl font-bold text-blue-700">{formatCurrency(dispatched)}</p>
-          <p className="text-xs text-blue-600 mt-0.5">{dispatches.length} {t('roznamcha.dispatches')}</p>
+          <p className="text-xs text-blue-600 mt-0.5">{dispatches.length + batches.length} {t('roznamcha.dispatches')}</p>
         </div>
         <div className={`rounded-xl p-3 border ${netCash >= 0 ? 'bg-slate-50 border-slate-200' : 'bg-orange-50 border-orange-200'}`}>
           <p className={`text-xs font-medium mb-1 ${netCash >= 0 ? 'text-slate-600' : 'text-orange-700'}`}>{t('roznamcha.netCash')}</p>

@@ -29,6 +29,7 @@ export function useRoznamcha(date) {
       { data: commissionPayments },
       { data: dealerPayouts },
       { data: commissionFees },
+      { data: farmBatches },
     ] = await Promise.all([
       supabase.from('dispatches').select('*, farms(name, name_fa, name_ps), dispatch_items(quantity, sell_price_at_time, total_amount, products(name))').eq('dispatch_date', date).order('created_at'),
       supabase.from('payments').select('*, farms(name, name_fa, name_ps)').eq('payment_date', date).order('created_at'),
@@ -53,6 +54,8 @@ export function useRoznamcha(date) {
       supabase.from('commission_payments').select('*, commission_customers(name)').eq('payment_date', date).order('created_at'),
       supabase.from('commission_dealer_payments').select('*, commission_dealers(name)').eq('payment_date', date).order('created_at'),
       supabase.from('commission_fee_expenses').select('*').eq('expense_date', date).order('created_at'),
+      // Chicken batches placed on a farm (chicken debt = count × price, from a choza supplier)
+      supabase.from('farm_batches').select('*, farms(name, name_fa, name_ps), suppliers(company_name)').eq('start_date', date).order('created_at'),
     ])
 
     const all = [
@@ -72,6 +75,7 @@ export function useRoznamcha(date) {
       ...(commissionPayments    || []).map(cp => ({ ...cp, _type: 'commission_payment' })),
       ...(dealerPayouts         || []).map(dp => ({ ...dp, _type: 'dealer_payout' })),
       ...(commissionFees        || []).map(cf => ({ ...cf, _type: 'commission_fee' })),
+      ...(farmBatches           || []).map(fb => ({ ...fb, _type: 'batch' })),
     ].sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
 
     setEntries(all)
@@ -164,6 +168,10 @@ export function useRoznamcha(date) {
         await supabase.from('commission_dealer_payments').delete().eq('id', id)
       } else if (type === 'commission_fee') {
         await supabase.from('commission_fee_expenses').delete().eq('id', id)
+      } else if (type === 'batch') {
+        // Chicken debt + choza-supplier allocation are both computed live from
+        // farm_batches, so deleting the row reverses them automatically.
+        await supabase.from('farm_batches').delete().eq('id', id)
       }
       toast.success('Deleted')
       await fetch()

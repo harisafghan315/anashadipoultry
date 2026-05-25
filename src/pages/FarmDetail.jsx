@@ -203,7 +203,7 @@ export default function FarmDetail() {
 
   if (!farm) {
     return <div className="flex items-center justify-center h-64 text-slate-400">
-      <div className="w-8 h-8 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
+      <div className="w-8 h-8 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
     </div>
   }
 
@@ -244,7 +244,7 @@ export default function FarmDetail() {
         <ArrowLeft size={16} /> {t('common.back')}
       </button>
 
-      <div className="bg-[#1B3A5C] rounded-2xl p-5 text-white">
+      <div className="bg-[#0F5257] rounded-2xl p-5 text-white">
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-2xl font-bold">{lf(farm, 'name', lang)}</h2>
@@ -291,7 +291,7 @@ export default function FarmDetail() {
         </div>
         <div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
           <p className="text-xs font-medium text-slate-500 mb-1">{t('farmDetail.totalProfit')}</p>
-          <p className="text-2xl font-bold text-[#1B3A5C]">{formatCurrency(totalProfit)}</p>
+          <p className="text-2xl font-bold text-[#0F5257]">{formatCurrency(totalProfit)}</p>
         </div>
         {!isClient && (
           <div className={`rounded-xl p-4 border ${chickenDebt > 0 ? 'bg-orange-50 border-orange-200' : 'bg-white border-slate-100 shadow-sm'}`}>
@@ -304,8 +304,8 @@ export default function FarmDetail() {
         )}
       </div>
 
-      <div className="flex gap-3">
-        <button onClick={() => navigate(`/dispatches/new?farm=${id}`)} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+      <div className="flex flex-wrap gap-2 sm:gap-3">
+        <button onClick={() => navigate(`/dispatches/new?farm=${id}`)} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Truck size={16} /> {t('dispatches.newDispatch')}
         </button>
         <button onClick={() => setPaymentModal(true)} className="flex items-center gap-2 px-4 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700 transition-colors">
@@ -335,7 +335,7 @@ export default function FarmDetail() {
       <div className="flex gap-1 bg-white rounded-xl p-1 border border-slate-100 shadow-sm w-fit flex-wrap">
         {TABS.map(tabItem => (
           <button key={tabItem.key} onClick={() => setTab(tabItem.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === tabItem.key ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}>
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === tabItem.key ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}>
             {tabItem.label}
           </button>
         ))}
@@ -353,7 +353,7 @@ export default function FarmDetail() {
                     <div className="flex items-center gap-2">
                       <p className="font-medium text-slate-800">{formatDate(d.dispatch_date)}</p>
                       {d.invoice_number && (
-                        <span className="text-xs font-mono font-semibold bg-[#1B3A5C]/10 text-[#1B3A5C] px-2 py-0.5 rounded">
+                        <span className="text-xs font-mono font-semibold bg-[#0F5257]/10 text-[#0F5257] px-2 py-0.5 rounded">
                           #{d.invoice_number}
                         </span>
                       )}
@@ -361,7 +361,7 @@ export default function FarmDetail() {
                     <p className="text-xs text-slate-400">{d.dispatch_items?.length || 0} {t('dispatches.items').toLowerCase()}</p>
                   </div>
                   <div className="text-end">
-                    <p className="font-bold text-[#1B3A5C]">{formatCurrency(d.total_amount)}</p>
+                    <p className="font-bold text-[#0F5257]">{formatCurrency(d.total_amount)}</p>
                     {d.notes && <p className="text-xs text-slate-400">{d.notes}</p>}
                   </div>
                 </div>
@@ -412,13 +412,13 @@ export default function FarmDetail() {
                         </div>
                         {p.notes && <p className="text-xs text-slate-400 mt-0.5">{p.notes}</p>}
                       </div>
-                      <span className="font-bold text-[#1B3A5C]">{formatCurrency(p.amount)}</span>
+                      <span className="font-bold text-[#0F5257]">{formatCurrency(p.amount)}</span>
                     </div>
                   ))}
                 </div>
                 <div className="flex justify-between pt-3 border-t border-slate-200 font-semibold">
                   <span className="text-slate-700">{t('farmDetail.totalSupplyOut')}</span>
-                  <span className="text-[#1B3A5C]">{formatCurrency(supplyPayments.reduce((s, p) => s + (p.amount || 0), 0))}</span>
+                  <span className="text-[#0F5257]">{formatCurrency(supplyPayments.reduce((s, p) => s + (p.amount || 0), 0))}</span>
                 </div>
               </div>
             )
@@ -472,7 +472,7 @@ export default function FarmDetail() {
                 type="number" min="0" value={subsidy}
                 onChange={e => setSubsidy(e.target.value)}
                 placeholder="0"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
               <p className="text-xs text-slate-400 mt-1">{t('farmDetail.subsidyNote')}</p>
             </div>
@@ -489,7 +489,7 @@ export default function FarmDetail() {
                   onClick={() => setSelectedBatchId(b.id)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border-2 transition-colors ${
                     b.id === selectedBatchId
-                      ? 'border-[#1B3A5C] bg-[#1B3A5C] text-white'
+                      ? 'border-[#0F5257] bg-[#0F5257] text-white'
                       : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
                   }`}
                 >
@@ -503,7 +503,7 @@ export default function FarmDetail() {
                   </span>
                 </button>
               ))}
-              <button onClick={openNewBatch} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-[#2E86AB] text-white hover:bg-[#1B3A5C]">
+              <button onClick={openNewBatch} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-[#14B8A6] text-white hover:bg-[#0F5257]">
                 <Plus size={14} /> {t('batches.startNew')}
               </button>
             </div>
@@ -515,7 +515,7 @@ export default function FarmDetail() {
             ) : (
               <>
                 {/* Selected batch header */}
-                <div className={`rounded-xl border p-4 ${selectedBatch.is_active ? 'bg-[#1B3A5C] border-[#1B3A5C] text-white' : 'bg-slate-100 border-slate-200'}`}>
+                <div className={`rounded-xl border p-4 ${selectedBatch.is_active ? 'bg-[#0F5257] border-[#0F5257] text-white' : 'bg-slate-100 border-slate-200'}`}>
                   <div className="flex items-start justify-between gap-3 flex-wrap">
                     <div>
                       <div className="flex items-center gap-2">
@@ -681,17 +681,17 @@ export default function FarmDetail() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('payments.amountAFN')}</label>
             <input required type="number" min="0.01" step="0.01" value={payForm.amount} onChange={e => setPayForm(f => ({ ...f, amount: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
             <input type="date" value={payForm.payment_date} onChange={e => setPayForm(f => ({ ...f, payment_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <input value={payForm.notes} onChange={e => setPayForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <label className="flex items-center gap-2 text-sm text-slate-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 cursor-pointer">
             <input type="checkbox" checked={payToStoreCash} onChange={e => setPayToStoreCash(e.target.checked)} className="rounded" />
@@ -744,12 +744,12 @@ export default function FarmDetail() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('farms.farmName')} *</label>
             <input required value={editForm.name || ''} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('farms.ownerName')}</label>
             <input value={editForm.owner_name || ''} onChange={e => setEditForm(f => ({ ...f, owner_name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -759,7 +759,7 @@ export default function FarmDetail() {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.location')}</label>
               <input value={editForm.location || ''} onChange={e => setEditForm(f => ({ ...f, location: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -769,7 +769,7 @@ export default function FarmDetail() {
                 type="number" min="0"
                 value={editForm.initial_chicken_count || 0}
                 onChange={e => setEditForm(f => ({ ...f, initial_chicken_count: parseInt(e.target.value) || 0 }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
             <div>
@@ -778,18 +778,18 @@ export default function FarmDetail() {
                 type="number" min="0" step="0.01"
                 value={editForm.price_per_chicken || 0}
                 onChange={e => setEditForm(f => ({ ...f, price_per_chicken: parseFloat(e.target.value) || 0 }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <textarea rows={3} value={editForm.notes || ''} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none" />
           </div>
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setEditModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB]">{t('common.saveChanges')}</button>
+            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6]">{t('common.saveChanges')}</button>
           </div>
         </form>
       </Modal>
@@ -889,7 +889,7 @@ export default function FarmDetail() {
             <select
               value={batchForm.supplier_id}
               onChange={e => setBatchForm(f => ({ ...f, supplier_id: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             >
               <option value="">— {t('common.optional')} —</option>
               {chozaSuppliers.map(s => (
@@ -910,7 +910,7 @@ export default function FarmDetail() {
                 required type="number" min="0"
                 value={batchForm.initial_chicken_count}
                 onChange={e => setBatchForm(f => ({ ...f, initial_chicken_count: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
             <div>
@@ -919,7 +919,7 @@ export default function FarmDetail() {
                 type="number" min="0" step="0.01"
                 value={batchForm.price_per_chicken}
                 onChange={e => setBatchForm(f => ({ ...f, price_per_chicken: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
           </div>
@@ -929,7 +929,7 @@ export default function FarmDetail() {
               type="date"
               value={batchForm.start_date}
               onChange={e => setBatchForm(f => ({ ...f, start_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -937,7 +937,7 @@ export default function FarmDetail() {
             <input
               value={batchForm.notes}
               onChange={e => setBatchForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           {batchForm.initial_chicken_count && batchForm.price_per_chicken && (
@@ -950,7 +950,7 @@ export default function FarmDetail() {
           )}
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setBatchModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB]">
+            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6]">
               {editBatchItem ? t('common.saveChanges') : t('batches.startNew')}
             </button>
           </div>

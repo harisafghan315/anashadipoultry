@@ -34,7 +34,7 @@ export default function Commission() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-          <Truck size={22} className="text-[#1B3A5C]" /> Commission
+          <Truck size={22} className="text-[#0F5257]" /> Commission
         </h2>
         {tab === 'today' && (
           <div className="flex items-center gap-2 bg-white rounded-xl border border-slate-200 px-3 py-1.5">
@@ -61,19 +61,19 @@ export default function Commission() {
       <div className="flex gap-1 bg-white rounded-xl p-1 border border-slate-100 shadow-sm w-fit flex-wrap">
         <button
           onClick={() => setTab('today')}
-          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'today' ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
+          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'today' ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
         >
           🚛 {isToday ? "Today's Car" : `Cars · ${formatDate(selectedDate)}`}
         </button>
         <button
           onClick={() => setTab('customers')}
-          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'customers' ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
+          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'customers' ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
         >
           👥 Customers
         </button>
         <button
           onClick={() => setTab('dealers')}
-          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'dealers' ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
+          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'dealers' ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
         >
           🤝 Dealers
         </button>
@@ -266,7 +266,7 @@ function TodayCarSection({ date }) {
             <p className="text-sm text-slate-500 mb-6">Set up today's chicken delivery to start tracking sales.</p>
             <button
               onClick={openAddCar}
-              className="px-6 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors"
+              className="px-6 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors"
             >
               + Set Up Today's Car
             </button>
@@ -311,7 +311,7 @@ function TodayCarSection({ date }) {
   return (
     <div className="space-y-4">
       {/* Day summary */}
-      <div className="bg-linear-to-r from-[#1B3A5C] to-[#2E86AB] rounded-2xl p-5 shadow-sm text-white">
+      <div className="bg-linear-to-r from-[#0F5257] to-[#14B8A6] rounded-2xl p-5 shadow-sm text-white">
         <div className="flex items-start justify-between mb-3">
           <div>
             <div className="text-xs text-white/70 uppercase tracking-wide">Today's Total · {formatDate(cars[0]?.car_date)}</div>
@@ -373,7 +373,7 @@ function TodayCarSection({ date }) {
             <div className="flex items-start justify-between mb-4 flex-wrap gap-2">
               <div>
                 <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <Truck size={16} className="text-[#1B3A5C]" /> Car #{idx + 1}
+                  <Truck size={16} className="text-[#0F5257]" /> Car #{idx + 1}
                   {isClosed && <span className="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-medium">✓ Closed</span>}
                   {!isClosed && isFull && <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Sold Out</span>}
                 </div>
@@ -394,7 +394,7 @@ function TodayCarSection({ date }) {
                   <>
                     <button
                       onClick={() => openAddSale(car.id)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1B3A5C] text-white rounded-lg text-sm font-medium hover:bg-[#2E86AB] transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F5257] text-white rounded-lg text-sm font-medium hover:bg-[#14B8A6] transition-colors"
                     >
                       <Plus size={14} /> Sale
                     </button>
@@ -614,7 +614,7 @@ function TodayCarSection({ date }) {
                         onFocus={() => { setCustomerSearch(''); setCustomerDropOpen(true) }}
                         placeholder="Search by name or phone..."
                         required={!saleForm.customer_id}
-                        className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                        className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                       />
                       {saleForm.customer_id && !customerDropOpen && (
                         <button
@@ -671,7 +671,7 @@ function TodayCarSection({ date }) {
                 required type="number" min="1"
                 value={saleForm.chicken_count}
                 onChange={e => setSaleForm(f => ({ ...f, chicken_count: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
             {saleForm.sale_type === 'per_kg' ? (
@@ -691,7 +691,7 @@ function TodayCarSection({ date }) {
                   type="number" min="0" step="0.01"
                   value={saleForm.weight_kg}
                   onChange={e => setSaleForm(f => ({ ...f, weight_kg: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
               </div>
             )}
@@ -705,7 +705,7 @@ function TodayCarSection({ date }) {
               required type="number" min="0" step="0.01"
               value={saleForm.price_per_unit}
               onChange={e => setSaleForm(f => ({ ...f, price_per_unit: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
 
@@ -721,13 +721,13 @@ function TodayCarSection({ date }) {
             <input
               value={saleForm.notes}
               onChange={e => setSaleForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
 
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setSaleModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? 'Saving...' : 'Add Sale'}
             </button>
           </div>
@@ -742,7 +742,7 @@ function TodayCarSection({ date }) {
             <input
               required value={customerForm.name}
               onChange={e => setCustomerForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -754,12 +754,12 @@ function TodayCarSection({ date }) {
             <input
               value={customerForm.notes}
               onChange={e => setCustomerForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setCustomerModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? 'Saving...' : 'Add Customer'}
             </button>
           </div>
@@ -888,9 +888,9 @@ function CustomersSection({ chevron: ChevronIcon }) {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search by name or phone..."
-          className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+          className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
         />
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> Add Customer
         </button>
       </div>
@@ -942,7 +942,7 @@ function CustomersSection({ chevron: ChevronIcon }) {
 
               <Link
                 to={`/commission/customer/${c.id}`}
-                className="flex items-center justify-between w-full px-3 py-2 bg-slate-50 hover:bg-[#1B3A5C] hover:text-white rounded-lg text-sm font-medium text-slate-700 transition-colors"
+                className="flex items-center justify-between w-full px-3 py-2 bg-slate-50 hover:bg-[#0F5257] hover:text-white rounded-lg text-sm font-medium text-slate-700 transition-colors"
               >
                 <span>View Account</span>
                 <ChevronIcon size={14} />
@@ -959,7 +959,7 @@ function CustomersSection({ chevron: ChevronIcon }) {
             <input
               required value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -971,12 +971,12 @@ function CustomersSection({ chevron: ChevronIcon }) {
             <textarea
               rows={3} value={form.notes}
               onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? 'Saving...' : editItem ? 'Save Changes' : 'Add Customer'}
             </button>
           </div>
@@ -1008,7 +1008,7 @@ function CarFormModal({ open, onClose, editingCar, form, setForm, onSubmit, savi
               required
               value={form.dealer_id || ''}
               onChange={e => setForm(f => ({ ...f, dealer_id: e.target.value }))}
-              className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             >
               <option value="">— Select dealer —</option>
               {dealers.map(d => (
@@ -1026,7 +1026,7 @@ function CarFormModal({ open, onClose, editingCar, form, setForm, onSubmit, savi
             required type="number" min="1"
             value={form.total_chickens}
             onChange={e => setForm(f => ({ ...f, total_chickens: e.target.value }))}
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
           />
         </div>
         <div>
@@ -1035,7 +1035,7 @@ function CarFormModal({ open, onClose, editingCar, form, setForm, onSubmit, savi
             value={form.notes}
             onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
             placeholder="Driver name, plate #, etc."
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
           />
         </div>
         <div>
@@ -1055,7 +1055,7 @@ function CarFormModal({ open, onClose, editingCar, form, setForm, onSubmit, savi
         </div>
         <div className="flex gap-3 justify-end pt-2">
           <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
-          <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+          <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
             {saving ? 'Saving...' : editingCar ? 'Save Changes' : 'Start Tracking'}
           </button>
         </div>
@@ -1076,7 +1076,7 @@ function QuickDealerModal({ open, onClose, form, setForm, onSubmit, saving }) {
           <input
             required value={form.name}
             onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
           />
         </div>
         <div>
@@ -1088,12 +1088,12 @@ function QuickDealerModal({ open, onClose, form, setForm, onSubmit, saving }) {
           <input
             value={form.notes}
             onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
           />
         </div>
         <div className="flex gap-3 justify-end pt-2">
           <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
-          <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+          <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
             {saving ? 'Saving...' : 'Add Dealer'}
           </button>
         </div>
@@ -1151,9 +1151,9 @@ function DealersSection({ chevron: ChevronIcon }) {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search by name or phone..."
-          className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+          className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
         />
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> Add Dealer
         </button>
       </div>
@@ -1172,7 +1172,7 @@ function DealersSection({ chevron: ChevronIcon }) {
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <div className="font-semibold text-slate-800 flex items-center gap-1.5">
-                    <Handshake size={14} className="text-[#1B3A5C]" /> {d.name}
+                    <Handshake size={14} className="text-[#0F5257]" /> {d.name}
                   </div>
                   {d.phone && <div className="text-xs text-slate-500 mt-0.5" dir="ltr">{d.phone}</div>}
                 </div>
@@ -1207,7 +1207,7 @@ function DealersSection({ chevron: ChevronIcon }) {
 
               <Link
                 to={`/commission/dealer/${d.id}`}
-                className="flex items-center justify-between w-full px-3 py-2 bg-slate-50 hover:bg-[#1B3A5C] hover:text-white rounded-lg text-sm font-medium text-slate-700 transition-colors"
+                className="flex items-center justify-between w-full px-3 py-2 bg-slate-50 hover:bg-[#0F5257] hover:text-white rounded-lg text-sm font-medium text-slate-700 transition-colors"
               >
                 <span>View Account</span>
                 <ChevronIcon size={14} />
@@ -1224,7 +1224,7 @@ function DealersSection({ chevron: ChevronIcon }) {
             <input
               required value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -1236,12 +1236,12 @@ function DealersSection({ chevron: ChevronIcon }) {
             <textarea
               rows={3} value={form.notes}
               onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? 'Saving...' : editItem ? 'Save Changes' : 'Add Dealer'}
             </button>
           </div>

@@ -182,7 +182,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
               key={tt.key}
               type="button"
               onClick={() => setType(tt.key)}
-              className={`px-3 py-3 rounded-xl border-2 text-center transition-colors ${type === tt.key ? 'border-[#1B3A5C] bg-[#1B3A5C] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+              className={`px-3 py-3 rounded-xl border-2 text-center transition-colors ${type === tt.key ? 'border-[#0F5257] bg-[#0F5257] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
             >
               <div className="text-xl">{tt.icon}</div>
               <div className="text-xs font-semibold mt-1">{tt.label}</div>
@@ -197,7 +197,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Send to *</label>
               <select required value={dispForm.farm_id} onChange={e => setDispForm(f => ({ ...f, farm_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                 <option value="">— pick farm or client —</option>
                 {activeFarms.length > 0 && (
                   <optgroup label={t('nav.farms')}>
@@ -214,7 +214,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Product *</label>
               <select required value={dispForm.product_id} onChange={e => handleProductPick(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                 <option value="">— pick a product —</option>
                 {products.map(p => (
                   <option key={p.id} value={p.id}>{p.name} — {p.type} (stock: {p.quantity} {p.unit || ''})</option>
@@ -229,31 +229,31 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
                 <label className="block text-xs font-medium text-slate-600 mb-1">Quantity *</label>
                 <input required type="number" min="0.01" step="0.01" value={dispForm.quantity}
                   onChange={e => setDispForm(f => ({ ...f, quantity: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">Sell price (AFN) *</label>
                 <input required type="number" min="0" step="0.01" value={dispForm.sell_price}
                   onChange={e => setDispForm(f => ({ ...f, sell_price: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
                 <input type="date" value={dispForm.date} onChange={e => setDispForm(f => ({ ...f, date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
                 <input value={dispForm.notes} onChange={e => setDispForm(f => ({ ...f, notes: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
             </div>
             {dispTotal > 0 && (
               <div className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm flex justify-between">
                 <span className="text-slate-600">Total</span>
-                <span className="font-bold text-[#1B3A5C]">{formatCurrency(dispTotal)}</span>
+                <span className="font-bold text-[#0F5257]">{formatCurrency(dispTotal)}</span>
               </div>
             )}
             <p className="text-xs text-slate-400">Need multiple products in one dispatch? Use the full <strong>Dispatches → New Dispatch</strong> wizard.</p>
@@ -266,7 +266,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Payment from *</label>
               <select required value={payForm.farm_id} onChange={e => setPayForm(f => ({ ...f, farm_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                 <option value="">— pick farm or client —</option>
                 {activeFarms.length > 0 && (
                   <optgroup label={t('nav.farms')}>
@@ -285,18 +285,18 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('payments.amountAFN')} *</label>
                 <input required type="number" min="0.01" step="0.01" value={payForm.amount}
                   onChange={e => setPayForm(f => ({ ...f, amount: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
                 <input type="date" value={payForm.date} onChange={e => setPayForm(f => ({ ...f, date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
               <input value={payForm.notes} onChange={e => setPayForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
         )}
@@ -308,13 +308,13 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
               <label className="block text-xs font-medium text-slate-600 mb-1">Title *</label>
               <input required value={expForm.title} onChange={e => setExpForm(f => ({ ...f, title: e.target.value }))}
                 placeholder="e.g. fuel, salary, utilities..."
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">Category</label>
                 <select value={expForm.category} onChange={e => setExpForm(f => ({ ...f, category: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                   {EXPENSE_CATS.map(c => <option key={c} value={c}>{t(`expenses.categories.${c}`)}</option>)}
                 </select>
               </div>
@@ -322,19 +322,19 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.amount')} (AFN) *</label>
                 <input required type="number" min="0.01" step="0.01" value={expForm.amount}
                   onChange={e => setExpForm(f => ({ ...f, amount: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
                 <input type="date" value={expForm.date} onChange={e => setExpForm(f => ({ ...f, date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
                 <input value={expForm.notes} onChange={e => setExpForm(f => ({ ...f, notes: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
             </div>
           </div>
@@ -357,7 +357,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">Person name *</label>
                 <input required value={cashForm.person_name} onChange={e => setCashForm(f => ({ ...f, person_name: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('cashLedger.phone')}</label>
@@ -369,18 +369,18 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.amount')} (AFN) *</label>
                 <input required type="number" min="0.01" step="0.01" value={cashForm.amount}
                   onChange={e => setCashForm(f => ({ ...f, amount: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
                 <input type="date" value={cashForm.date} onChange={e => setCashForm(f => ({ ...f, date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
               <input value={cashForm.notes} onChange={e => setCashForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
         )}
@@ -423,7 +423,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
         <div className="flex gap-3 justify-end pt-2">
           <button type="button" onClick={() => { reset(); onClose() }} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
           {type !== 'stock' && (
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : '+ Add Entry'}
             </button>
           )}

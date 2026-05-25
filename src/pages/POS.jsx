@@ -273,13 +273,13 @@ export default function POS() {
           <div className="flex gap-1 bg-slate-100 rounded-lg p-1 w-fit mb-4">
             <button
               onClick={() => { setCustomerType('farm'); setAmountPaid('') }}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${customerType === 'farm' ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:text-slate-800'}`}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${customerType === 'farm' ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:text-slate-800'}`}
             >
               🏠 {t('pos.farmSale')}
             </button>
             <button
               onClick={() => { setCustomerType('walkin'); setAmountPaid('') }}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${customerType === 'walkin' ? 'bg-[#2E86AB] text-white shadow' : 'text-slate-600 hover:text-slate-800'}`}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${customerType === 'walkin' ? 'bg-[#14B8A6] text-white shadow' : 'text-slate-600 hover:text-slate-800'}`}
             >
               🚶 {t('pos.walkIn')}
             </button>
@@ -290,7 +290,7 @@ export default function POS() {
               <select
                 value={farmId}
                 onChange={e => setFarmId(e.target.value)}
-                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               >
                 <option value="">{t('pos.selectFarm')}</option>
                 {farms.filter(f => f.is_active).map(f => (
@@ -308,7 +308,7 @@ export default function POS() {
               <select
                 value={walkInCustomerId}
                 onChange={e => setWalkInCustomerId(e.target.value)}
-                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               >
                 <option value="">{t('pos.anonymous')}</option>
                 {customers.map(c => (
@@ -320,7 +320,7 @@ export default function POS() {
                   value={walkInName}
                   onChange={e => setWalkInName(e.target.value)}
                   placeholder={t('pos.customerNameOptional')}
-                  className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
               )}
               <button
@@ -342,7 +342,7 @@ export default function POS() {
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 placeholder={t('pos.searchProduct')}
-                className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 autoFocus
               />
               {filteredProducts.length > 0 && (
@@ -361,7 +361,7 @@ export default function POS() {
                         </span>
                       </div>
                       <div className="text-end">
-                        <div className="text-sm font-semibold text-[#1B3A5C]">{formatCurrency(p.sell_price)}</div>
+                        <div className="text-sm font-semibold text-[#0F5257]">{formatCurrency(p.sell_price)}</div>
                         {p.sell_price_usd > 0
                           ? <div className="text-xs text-slate-400">${p.sell_price_usd}</div>
                           : rate > 0 && <div className="text-xs text-slate-400">≈ ${(p.sell_price / rate).toFixed(2)}</div>
@@ -444,7 +444,7 @@ export default function POS() {
                         type="number" min="0.01" step="0.01"
                         value={item.quantity}
                         onChange={e => updateCart(idx, 'quantity', e.target.value)}
-                        className="w-full px-2 py-1.5 text-sm text-center border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                        className="w-full px-2 py-1.5 text-sm text-center border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                       />
                     </div>
                     <div className="col-span-3">
@@ -452,7 +452,7 @@ export default function POS() {
                         type="number" min="0" step="0.01"
                         value={item.sell_price}
                         onChange={e => updateCart(idx, 'sell_price', e.target.value)}
-                        className="w-full px-2 py-1.5 text-sm text-end border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                        className="w-full px-2 py-1.5 text-sm text-end border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                       />
                       {rate > 0 && item.sell_price > 0 && (
                         <div className="text-xs text-slate-400 text-end mt-0.5">
@@ -496,7 +496,7 @@ export default function POS() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
             <input type="date" value={saleDate} onChange={e => setSaleDate(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
 
           {customerType === 'walkin' && (
@@ -513,7 +513,7 @@ export default function POS() {
                       setPaymentType(pt.key)
                       if (pt.key === 'cash') setAmountPaid(String(totalAmount))
                     }}
-                    className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${paymentType === pt.key ? 'bg-[#1B3A5C] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                    className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${paymentType === pt.key ? 'bg-[#0F5257] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
                   >
                     {pt.label}
                   </button>
@@ -529,9 +529,9 @@ export default function POS() {
               value={amountPaid}
               onChange={e => setAmountPaid(e.target.value)}
               placeholder={customerType === 'farm' ? t('pos.farmPaysLater') : t('pos.enterAmount')}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
-            <button onClick={() => setAmountPaid(String(totalAmount))} className="text-xs text-[#2E86AB] hover:underline mt-1">
+            <button onClick={() => setAmountPaid(String(totalAmount))} className="text-xs text-[#14B8A6] hover:underline mt-1">
               {t('pos.setFullAmount')}
             </button>
             {paid > 0 && (
@@ -545,10 +545,10 @@ export default function POS() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <input value={notes} onChange={e => setNotes(e.target.value)} placeholder={t('common.optional')}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
 
-          <div className="bg-[#1B3A5C] rounded-xl p-4 text-white space-y-2">
+          <div className="bg-[#0F5257] rounded-xl p-4 text-white space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-white/70">{t('pos.grandTotal')}</span>
               <div className="text-end">
@@ -607,7 +607,7 @@ export default function POS() {
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.name')} *</label>
             <input required value={newCustomerForm.name}
               onChange={e => setNewCustomerForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.phone')}</label>
@@ -615,7 +615,7 @@ export default function POS() {
           </div>
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setNewCustomerModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB]">{t('pos.addCustomer')}</button>
+            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6]">{t('pos.addCustomer')}</button>
           </div>
         </form>
       </Modal>

@@ -10,7 +10,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 const emptyForm = { company_name: '', owner_name: '', phone: '', notes: '' }
 
 const TABS = [
-  { key: 'meel',     labelKey: 'meelSuppliers',     icon: '🌾', iconColor: 'text-[#1B3A5C]', bgColor: 'bg-[#1B3A5C]/10' },
+  { key: 'meel',     labelKey: 'meelSuppliers',     icon: '🌾', iconColor: 'text-[#0F5257]', bgColor: 'bg-[#0F5257]/10' },
   { key: 'medicine', labelKey: 'medicineSuppliers',  icon: '💊', iconColor: 'text-blue-600',   bgColor: 'bg-blue-100' },
   { key: 'choza',    labelKey: 'chozaSuppliers',     icon: '🐥', iconColor: 'text-amber-600',  bgColor: 'bg-amber-100' },
 ]
@@ -91,7 +91,7 @@ export default function Suppliers() {
             key={tab.key}
             onClick={() => { setActiveTab(tab.key); setSearch('') }}
             className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
-              activeTab === tab.key ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-50'
+              activeTab === tab.key ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
             {tab.icon} {t(`suppliers.${tab.labelKey}`)}
@@ -105,10 +105,10 @@ export default function Suppliers() {
           <input
             value={search} onChange={e => setSearch(e.target.value)}
             placeholder={t('suppliers.searchPlaceholder')}
-            className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+            className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
           />
         </div>
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> {getAddLabel()}
         </button>
       </div>
@@ -152,7 +152,7 @@ export default function Suppliers() {
 
               <Link
                 to={getProfileLink(s)}
-                className="flex items-center justify-between w-full px-3 py-2 bg-slate-50 hover:bg-[#1B3A5C] hover:text-white rounded-lg text-sm font-medium text-slate-700 transition-colors group"
+                className="flex items-center justify-between w-full px-3 py-2 bg-slate-50 hover:bg-[#0F5257] hover:text-white rounded-lg text-sm font-medium text-slate-700 transition-colors group"
               >
                 <span>{t('suppliers.viewProfile')}</span>
                 <ChevronIcon size={14} />
@@ -170,7 +170,7 @@ export default function Suppliers() {
               required
               value={form.company_name}
               onChange={e => setForm(f => ({ ...f, company_name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -178,7 +178,7 @@ export default function Suppliers() {
             <input
               value={form.owner_name}
               onChange={e => setForm(f => ({ ...f, owner_name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -191,14 +191,14 @@ export default function Suppliers() {
               rows={3}
               value={form.notes}
               onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">
               {t('common.cancel')}
             </button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : editItem ? t('common.saveChanges') : getAddLabel()}
             </button>
           </div>

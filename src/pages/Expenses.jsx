@@ -98,7 +98,7 @@ export default function Expenses() {
       key: 'actions', label: '',
       render: r => (
         <div className="flex items-center gap-2">
-          <button onClick={() => openEdit(r)} className="p-1.5 text-slate-500 hover:text-[#1B3A5C] hover:bg-slate-100 rounded"><Edit2 size={14} /></button>
+          <button onClick={() => openEdit(r)} className="p-1.5 text-slate-500 hover:text-[#0F5257] hover:bg-slate-100 rounded"><Edit2 size={14} /></button>
           <button onClick={() => setDeleteTarget(r)} className="text-xs text-red-500 hover:text-red-700 hover:underline">{t('common.delete')}</button>
         </div>
       )
@@ -113,7 +113,7 @@ export default function Expenses() {
           <button
             key={cat}
             onClick={() => setCatFilter(catFilter === cat ? '' : cat)}
-            className={`rounded-xl p-3 text-center transition-all border-2 ${catFilter === cat ? 'border-[#1B3A5C] bg-[#1B3A5C] text-white' : 'border-transparent bg-white hover:border-slate-200'}`}
+            className={`rounded-xl p-3 text-center transition-all border-2 ${catFilter === cat ? 'border-[#0F5257] bg-[#0F5257] text-white' : 'border-transparent bg-white hover:border-slate-200'}`}
           >
             <div className="text-lg">{CAT_ICONS[cat]}</div>
             <div className={`text-xs font-medium mt-0.5 ${catFilter === cat ? 'text-white' : 'text-slate-600'}`}>{EXPENSE_CATEGORY_BI[cat] || cat}</div>
@@ -124,13 +124,13 @@ export default function Expenses() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <input type="month" value={monthFilter} onChange={e => setMonthFilter(e.target.value)}
-          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
         <div className="flex-1" />
         <div className="text-sm text-slate-600 flex items-center">
           {t('common.total')}: <strong className="text-red-700 ms-1">{formatCurrency(monthTotal)}</strong>
         </div>
         <button onClick={openAdd}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors whitespace-nowrap">
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors whitespace-nowrap">
           <Plus size={16} /> {t('expenses.addExpense')}
         </button>
       </div>
@@ -145,31 +145,31 @@ export default function Expenses() {
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('expenses.title')} *</label>
             <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
               placeholder={t('expenses.titlePlaceholder')}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('expenses.category')}</label>
               <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                 {CATEGORIES.map(c => <option key={c} value={c}>{CAT_ICONS[c]} {EXPENSE_CATEGORY_BI[c] || c}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('expenses.amountAFN')}</label>
               <input required type="number" min="0.01" step="0.01" value={form.amount} onChange={e => setForm(f => ({ ...f, amount: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
             <input type="date" value={form.expense_date} onChange={e => setForm(f => ({ ...f, expense_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <input value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           {!editTarget && (
             <label className="flex items-center gap-2 text-sm text-slate-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2 cursor-pointer">
@@ -179,7 +179,7 @@ export default function Expenses() {
           )}
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : editTarget ? t('common.saveChanges') : t('expenses.addExpense')}
             </button>
           </div>

@@ -174,11 +174,11 @@ function EntryCard({ entry, onDelete }) {
   }
 
   return (
-    <div className={`bg-white rounded-xl border border-slate-100 border-l-4 ${cfg.border} px-4 py-3 flex items-start gap-4`}>
-      <div className="shrink-0 w-16 text-end">
-        <p className="text-xs text-slate-400 mt-0.5">{time}</p>
+    <div className={`bg-white rounded-xl border border-slate-100 border-l-4 ${cfg.border} px-3 sm:px-4 py-3 flex items-start gap-2 sm:gap-4`}>
+      <div className="shrink-0 w-10 sm:w-16 text-end">
+        <p className="text-[10px] sm:text-xs text-slate-400 mt-0.5">{time}</p>
       </div>
-      <div className="text-xl shrink-0 mt-0.5">{cfg.icon}</div>
+      <div className="text-lg sm:text-xl shrink-0 mt-0.5">{cfg.icon}</div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap mb-0.5">
           <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${cfg.badge}`}>{cfg.label}</span>
@@ -267,12 +267,12 @@ export default function Roznamcha() {
     <div className="space-y-4 max-w-3xl mx-auto">
 
       {/* Date Navigation */}
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-4 py-3 flex items-center gap-3">
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-3 sm:px-4 py-3 flex items-center gap-2 sm:gap-3 flex-wrap">
         <div className="flex items-center gap-2">
-          <BookOpen size={20} className="text-[#1B3A5C]" />
-          <span className="font-bold text-[#1B3A5C] text-lg">{t('nav.roznamcha')}</span>
+          <BookOpen size={20} className="text-[#0F5257]" />
+          <span className="font-bold text-[#0F5257] text-base sm:text-lg">{t('nav.roznamcha')}</span>
         </div>
-        <div className="flex-1" />
+        <div className="flex-1 min-w-0" />
         <button onClick={() => setDate(prevDay(date))} className="p-2 rounded-lg hover:bg-slate-100 text-slate-600">
           <ChevronLeft size={18} />
         </button>
@@ -280,7 +280,7 @@ export default function Roznamcha() {
           type="date" value={date}
           max={todayStr()}
           onChange={e => setDate(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 font-medium text-slate-700"
+          className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 font-medium text-slate-700"
         />
         <button
           onClick={() => setDate(nextDay(date))}
@@ -290,7 +290,7 @@ export default function Roznamcha() {
           <ChevronRight size={18} />
         </button>
         {!isToday && (
-          <button onClick={() => setDate(todayStr())} className="text-xs px-3 py-1.5 bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB]">
+          <button onClick={() => setDate(todayStr())} className="text-xs px-3 py-1.5 bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6]">
             {t('roznamcha.today')}
           </button>
         )}
@@ -299,7 +299,7 @@ export default function Roznamcha() {
         </button>
         <button
           onClick={() => setQuickOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1B3A5C] text-white rounded-lg text-sm font-semibold hover:bg-[#2E86AB] whitespace-nowrap"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F5257] text-white rounded-lg text-sm font-semibold hover:bg-[#14B8A6] whitespace-nowrap"
         >
           <Plus size={15} /> New Entry
         </button>
@@ -340,7 +340,7 @@ export default function Roznamcha() {
       <div className="space-y-2">
         {loading ? (
           <div className="bg-white rounded-xl border border-slate-100 py-16 text-center text-slate-400">
-            <div className="w-8 h-8 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-8 h-8 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             {t('common.loading')}
           </div>
         ) : entries.length === 0 ? (
@@ -356,7 +356,7 @@ export default function Roznamcha() {
 
       {/* Day Total Footer */}
       {entries.length > 0 && (
-        <div className="bg-[#1B3A5C] rounded-2xl p-4 text-white">
+        <div className="bg-[#0F5257] rounded-2xl p-4 text-white">
           <p className="text-white/60 text-xs mb-3 font-medium uppercase tracking-wide">{t('roznamcha.daySummary')} — {entries.length} {t('roznamcha.transactions')}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
             {payments.length > 0 && <div><p className="text-white/50 text-xs">{t('roznamcha.farmPayments')}</p><p className="font-bold text-green-300">+{formatCurrency(payments.reduce((s,p) => s+(p.amount||0),0))}</p></div>}

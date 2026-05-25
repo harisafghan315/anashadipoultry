@@ -95,7 +95,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 text-slate-400">
-        <div className="w-8 h-8 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />
+        <div className="w-8 h-8 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />
         {t('dashboard.loading')}
       </div>
     )
@@ -175,7 +175,7 @@ export default function Dashboard() {
               <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1000).toFixed(0)}k`} />
               <Tooltip formatter={(v) => formatCurrency(v)} />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar dataKey="revenue" name={t('dashboard.revenue')} fill="#2E86AB" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="revenue" name={t('dashboard.revenue')} fill="#14B8A6" radius={[4, 4, 0, 0]} />
               <Bar dataKey="expenses" name={t('dashboard.expenses')} fill="#ef4444" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -215,9 +215,9 @@ export default function Dashboard() {
         <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-slate-700 flex items-center gap-2">
-              <Truck size={16} className="text-[#2E86AB]" /> {t('dashboard.recentDispatches')}
+              <Truck size={16} className="text-[#14B8A6]" /> {t('dashboard.recentDispatches')}
             </h3>
-            <button onClick={() => navigate('/dispatches')} className="text-xs text-[#2E86AB] hover:underline">{t('common.viewAll')}</button>
+            <button onClick={() => navigate('/dispatches')} className="text-xs text-[#14B8A6] hover:underline">{t('common.viewAll')}</button>
           </div>
           {recentDispatches.length === 0 ? (
             <p className="text-sm text-slate-400 text-center py-6">{t('dashboard.noDispatches')}</p>
@@ -229,7 +229,7 @@ export default function Dashboard() {
                     <p className="text-sm font-medium text-slate-700">{lf(d.farms, 'name', lang) || '—'}</p>
                     <p className="text-xs text-slate-400">{formatDate(d.dispatch_date)}</p>
                   </div>
-                  <span className="text-sm font-semibold text-[#1B3A5C]">{formatCurrency(d.total_amount)}</span>
+                  <span className="text-sm font-semibold text-[#0F5257]">{formatCurrency(d.total_amount)}</span>
                 </div>
               ))}
             </div>
@@ -241,7 +241,7 @@ export default function Dashboard() {
             <h3 className="font-semibold text-slate-700 flex items-center gap-2">
               <CreditCard size={16} className="text-green-600" /> {t('dashboard.recentPayments')}
             </h3>
-            <button onClick={() => navigate('/payments')} className="text-xs text-[#2E86AB] hover:underline">{t('common.viewAll')}</button>
+            <button onClick={() => navigate('/payments')} className="text-xs text-[#14B8A6] hover:underline">{t('common.viewAll')}</button>
           </div>
           {recentPayments.length === 0 ? (
             <p className="text-sm text-slate-400 text-center py-6">{t('dashboard.noPayments')}</p>
@@ -268,8 +268,8 @@ export default function Dashboard() {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-[#1B3A5C]/10">
-                  <Pill size={18} className="text-[#1B3A5C]" />
+                <div className="p-2 rounded-xl bg-[#0F5257]/10">
+                  <Pill size={18} className="text-[#0F5257]" />
                 </div>
                 <h2 className="font-bold text-slate-800 text-lg">{t('dashboard.medicineOverview')}</h2>
               </div>
@@ -280,16 +280,16 @@ export default function Dashboard() {
 
             {medicineModal.loading ? (
               <div className="flex items-center justify-center py-16 text-slate-400">
-                <div className="w-7 h-7 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />
+                <div className="w-7 h-7 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />
                 {t('common.loading')}
               </div>
             ) : (
               <div className="overflow-y-auto flex-1 px-6 py-5 space-y-5">
                 {/* Summary Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="bg-[#1B3A5C]/5 rounded-xl p-4">
+                  <div className="bg-[#0F5257]/5 rounded-xl p-4">
                     <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">{t('dashboard.stockValue')}</p>
-                    <p className="text-xl font-bold text-[#1B3A5C]">{formatCurrency(stats.medicineValue)}</p>
+                    <p className="text-xl font-bold text-[#0F5257]">{formatCurrency(stats.medicineValue)}</p>
                     <p className="text-xs text-slate-400 mt-1">{medicineProducts.length} {t('dashboard.products')}</p>
                   </div>
                   <div className="bg-blue-50 rounded-xl p-4">
@@ -319,12 +319,12 @@ export default function Dashboard() {
                             <div className="flex items-center justify-between mb-1.5">
                               <span className="text-sm font-medium text-slate-700">{p.name}</span>
                               <div className="text-end">
-                                <span className="text-sm font-bold text-[#1B3A5C]">{formatCurrency(stockVal)}</span>
+                                <span className="text-sm font-bold text-[#0F5257]">{formatCurrency(stockVal)}</span>
                                 <span className="text-xs text-slate-400 ms-2">{p.quantity} {p.unit}</span>
                               </div>
                             </div>
                             <div className="w-full bg-slate-200 rounded-full h-1.5">
-                              <div className="bg-[#2E86AB] h-1.5 rounded-full" style={{ width: `${Math.min(100, (stockVal / (maxVal || 1)) * 100)}%` }} />
+                              <div className="bg-[#14B8A6] h-1.5 rounded-full" style={{ width: `${Math.min(100, (stockVal / (maxVal || 1)) * 100)}%` }} />
                             </div>
                             <div className="flex justify-between mt-1 text-xs text-slate-400">
                               <span>{t('inventory.purchasePrice')}: {formatCurrency(p.purchase_price)}</span>

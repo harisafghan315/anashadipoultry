@@ -104,7 +104,7 @@ export default function WalkInCustomers() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 text-slate-400">
-        <div className="w-8 h-8 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />
+        <div className="w-8 h-8 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />
         {t('common.loading')}
       </div>
     )
@@ -116,10 +116,10 @@ export default function WalkInCustomers() {
         <input
           value={search} onChange={e => setSearch(e.target.value)}
           placeholder={t('customers.searchPlaceholder')}
-          className="flex-1 px-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+          className="flex-1 px-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
         />
         <button onClick={() => setAddModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> {t('customers.addCustomer')}
         </button>
       </div>
@@ -132,7 +132,7 @@ export default function WalkInCustomers() {
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100 text-center">
             <p className="text-xs text-slate-500 mb-1">{t('customers.totalSales')}</p>
-            <p className="text-xl font-bold text-[#1B3A5C]">{formatCurrency(customers.reduce((s, c) => s + (c.total_purchases || 0), 0))}</p>
+            <p className="text-xl font-bold text-[#0F5257]">{formatCurrency(customers.reduce((s, c) => s + (c.total_purchases || 0), 0))}</p>
           </div>
           <div className="bg-red-50 rounded-xl p-4 border border-red-100 text-center">
             <p className="text-xs text-slate-500 mb-1">{t('customers.totalDebt')}</p>
@@ -144,7 +144,7 @@ export default function WalkInCustomers() {
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-slate-400">
           <p className="text-sm">{t('customers.noCustomers')}</p>
-          <button onClick={() => setAddModal(true)} className="mt-3 text-sm text-[#2E86AB] hover:underline">{t('customers.addFirst')}</button>
+          <button onClick={() => setAddModal(true)} className="mt-3 text-sm text-[#14B8A6] hover:underline">{t('customers.addFirst')}</button>
         </div>
       ) : (
         <div className="space-y-3">
@@ -153,7 +153,7 @@ export default function WalkInCustomers() {
               <div className="flex items-center justify-between p-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-[#1B3A5C]/10 text-[#1B3A5C] flex items-center justify-center font-bold text-sm">
+                    <div className="w-9 h-9 rounded-full bg-[#0F5257]/10 text-[#0F5257] flex items-center justify-center font-bold text-sm">
                       {customer.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
@@ -212,7 +212,7 @@ export default function WalkInCustomers() {
                                 <span className="text-xs text-red-600 ms-2">{t('common.balance')}: {formatCurrency(sale.remaining)}</span>
                               )}
                             </div>
-                            <button onClick={() => openEditSale(sale)} className="p-1.5 text-slate-400 hover:text-[#1B3A5C] hover:bg-slate-100 rounded">
+                            <button onClick={() => openEditSale(sale)} className="p-1.5 text-slate-400 hover:text-[#0F5257] hover:bg-slate-100 rounded">
                               <Edit2 size={13} />
                             </button>
                           </div>
@@ -233,7 +233,7 @@ export default function WalkInCustomers() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.name')} *</label>
             <input required value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.phone')}</label>
@@ -242,11 +242,11 @@ export default function WalkInCustomers() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <input value={addForm.notes} onChange={e => setAddForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setAddModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB]">{t('customers.addCustomer')}</button>
+            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6]">{t('customers.addCustomer')}</button>
           </div>
         </form>
       </Modal>
@@ -261,12 +261,12 @@ export default function WalkInCustomers() {
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('payments.amountAFN')}</label>
             <input required type="number" min="0.01" step="0.01" value={payAmount}
               onChange={e => setPayAmount(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
             <input type="date" value={payDate} onChange={e => setPayDate(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <label className="flex items-center gap-2 text-sm text-slate-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 cursor-pointer">
             <input type="checkbox" checked={payToStoreCash} onChange={e => setPayToStoreCash(e.target.checked)} className="rounded" />
@@ -299,12 +299,12 @@ export default function WalkInCustomers() {
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
                 <input type="date" value={editSaleForm.sale_date} onChange={e => setEditSaleForm(f => ({ ...f, sale_date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('customers.paymentType')}</label>
                 <select value={editSaleForm.payment_type} onChange={e => setEditSaleForm(f => ({ ...f, payment_type: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                   <option value="cash">{t('customers.cash')}</option>
                   <option value="credit">{t('customers.credit')}</option>
                 </select>
@@ -314,7 +314,7 @@ export default function WalkInCustomers() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('customers.amountPaid')}</label>
               <input type="number" min="0" step="0.01" max={editSale.total_amount} value={editSaleForm.amount_paid}
                 onChange={e => setEditSaleForm(f => ({ ...f, amount_paid: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               <p className="text-xs text-slate-400 mt-1">
                 {t('customers.remainingAfter')} <span className="font-semibold text-red-600">{formatCurrency(Math.max(0, editSale.total_amount - parseFloat(editSaleForm.amount_paid || 0)))}</span>
                 {' '}— {t('customers.debtAutoUpdate')}
@@ -323,16 +323,16 @@ export default function WalkInCustomers() {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('customers.customerName')}</label>
               <input value={editSaleForm.customer_name} onChange={e => setEditSaleForm(f => ({ ...f, customer_name: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
               <input value={editSaleForm.notes} onChange={e => setEditSaleForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div className="flex gap-3 justify-end">
               <button type="button" onClick={() => setEditSale(null)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-              <button type="submit" disabled={savingSale} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+              <button type="submit" disabled={savingSale} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
                 {savingSale ? t('common.saving') : t('common.saveChanges')}
               </button>
             </div>

@@ -50,16 +50,16 @@ export default function MarketSellers() {
         <input
           value={search} onChange={e => setSearch(e.target.value)}
           placeholder={t('market.searchSellers')}
-          className="flex-1 px-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+          className="flex-1 px-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
         />
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> {t('market.addSeller')}
         </button>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-40 text-slate-400">
-          <div className="w-8 h-8 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
+          <div className="w-8 h-8 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
         </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-slate-400">
@@ -76,11 +76,11 @@ export default function MarketSellers() {
               <div
                 key={seller.id}
                 onClick={() => navigate(`/market/${seller.id}`)}
-                className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md hover:border-[#2E86AB]/30 transition-all cursor-pointer group"
+                className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md hover:border-[#14B8A6]/30 transition-all cursor-pointer group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="font-semibold text-slate-800 group-hover:text-[#1B3A5C] transition-colors">{seller.name}</h3>
+                    <h3 className="font-semibold text-slate-800 group-hover:text-[#0F5257] transition-colors">{seller.name}</h3>
                     {seller.shop_number && (
                       <p className="text-sm text-slate-500">{t('market.shopNumber')}: {seller.shop_number}</p>
                     )}
@@ -92,7 +92,7 @@ export default function MarketSellers() {
                     <button onClick={e => { e.stopPropagation(); setDeleteTarget(seller) }} className="p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500">
                       <Trash2 size={14} />
                     </button>
-                    <ChevronRight size={16} className="text-slate-300 group-hover:text-[#2E86AB] transition-colors" />
+                    <ChevronRight size={16} className="text-slate-300 group-hover:text-[#14B8A6] transition-colors" />
                   </div>
                 </div>
 
@@ -135,13 +135,13 @@ export default function MarketSellers() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.name')} *</label>
             <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('market.shopNumber')}</label>
               <input value={form.shop_number} onChange={e => setForm(f => ({ ...f, shop_number: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.phone')}</label>
@@ -151,11 +151,11 @@ export default function MarketSellers() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <textarea rows={2} value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none" />
           </div>
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : editItem ? t('common.saveChanges') : t('market.addSeller')}
             </button>
           </div>

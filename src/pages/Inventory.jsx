@@ -341,7 +341,7 @@ export default function Inventory() {
           <input
             value={search} onChange={e => setSearch(e.target.value)}
             placeholder={t('inventory.searchPlaceholder')}
-            className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+            className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
           />
         </div>
         {tab === 'medicine' && (<>
@@ -353,7 +353,7 @@ export default function Inventory() {
             <input type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={handleImportExcel} />
           </label>
         </>)}
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> {t('inventory.addProduct')}
         </button>
       </div>
@@ -361,13 +361,13 @@ export default function Inventory() {
       <div className="flex gap-1 bg-white rounded-xl p-1 border border-slate-100 shadow-sm w-fit">
         <button
           onClick={() => setTab('medicine')}
-          className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'medicine' ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
+          className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'medicine' ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
         >
           💊 {PRODUCT_CATEGORY_BI.medicines}
         </button>
         <button
           onClick={() => setTab('meel')}
-          className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'meel' ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
+          className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${tab === 'meel' ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-50'}`}
         >
           🌾 {PRODUCT_CATEGORY_BI.meel}
         </button>
@@ -414,7 +414,7 @@ export default function Inventory() {
                   )}
                   <Link
                     to={`/suppliers/${s.supplier_id}`}
-                    className="flex items-center gap-1 text-xs text-[#2E86AB] hover:underline ms-auto"
+                    className="flex items-center gap-1 text-xs text-[#14B8A6] hover:underline ms-auto"
                   >
                     <ExternalLink size={11} /> {t('suppliers.viewProfile')}
                   </Link>
@@ -437,14 +437,14 @@ export default function Inventory() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.productName')} *</label>
               <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                 dir="ltr"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             {form.type !== 'meel' && (<>
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.type')}</label>
                 <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value, unit: UNITS[e.target.value]?.[0] || 'bottle' }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                   <option value="medicine">{PRODUCT_CATEGORY_BI.medicines}</option>
                   <option value="meel">{PRODUCT_CATEGORY_BI.meel}</option>
                 </select>
@@ -453,7 +453,7 @@ export default function Inventory() {
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.unit')}</label>
                 <select value={form.unit} onChange={e => setForm(f => ({ ...f, unit: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                   {(UNITS[form.type] || []).map(u => <option key={u} value={u}>{u}</option>)}
                 </select>
               </div>
@@ -464,7 +464,7 @@ export default function Inventory() {
                   <input value={form.barcode} onChange={e => setForm(f => ({ ...f, barcode: e.target.value }))}
                     placeholder={t('inventory.barcode')}
                     dir="ltr"
-                    className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   <button type="button" onClick={() => setCameraOpen(true)} className="px-3 py-2 bg-slate-100 rounded-lg hover:bg-slate-200 text-slate-600">
                     <Camera size={16} />
                   </button>
@@ -476,14 +476,14 @@ export default function Inventory() {
                 <input value={form.batch_number} onChange={e => setForm(f => ({ ...f, batch_number: e.target.value }))}
                   placeholder="e.g. 25087bo1"
                   dir="ltr"
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
 
               {form.type === 'medicine' && (
                 <div>
                   <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.expiryDate')}</label>
                   <input type="date" value={form.expiry_date} onChange={e => setForm(f => ({ ...f, expiry_date: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                 </div>
               )}
             </>)}
@@ -522,13 +522,13 @@ export default function Inventory() {
                     <label className="block text-xs font-medium text-slate-600 mb-1">{t('suppliers.pricePerBag')} *</label>
                     <input required type="number" min="0" step="0.01" value={form.purchase_price}
                       onChange={e => setForm(f => ({ ...f, purchase_price: e.target.value }))}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.sellPriceAFN')} *</label>
                     <input required type="number" min="0" step="0.01" value={form.sell_price}
                       onChange={e => setForm(f => ({ ...f, sell_price: e.target.value }))}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   </div>
                 </div>
               ) : (
@@ -560,7 +560,7 @@ export default function Inventory() {
                       </label>
                       <input type="number" min="0" step="0.01" value={form.purchase_price}
                         onChange={e => setForm(f => ({ ...f, purchase_price: e.target.value }))}
-                        className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                        className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                     </div>
                   </div>
 
@@ -589,7 +589,7 @@ export default function Inventory() {
                       </label>
                       <input type="number" min="0" step="0.01" value={form.sell_price}
                         onChange={e => setForm(f => ({ ...f, sell_price: e.target.value }))}
-                        className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                        className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                     </div>
                   </div>
                 </div>
@@ -601,13 +601,13 @@ export default function Inventory() {
                 {form.type === 'meel' ? t('suppliers.bags') : t('inventory.currentQty')}
               </label>
               <input type="number" min="0" value={form.quantity} onChange={e => setForm(f => ({ ...f, quantity: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.lowStockAt')}</label>
               <input type="number" min="0" value={form.low_stock_threshold} onChange={e => setForm(f => ({ ...f, low_stock_threshold: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             {form.type === 'medicine' && parseFloat(form.purchase_price_usd) > 0 && parseFloat(form.quantity) > 0 && (
@@ -673,7 +673,7 @@ export default function Inventory() {
                           <Link
                             to={`/suppliers/medicine/${p.supplier_id}`}
                             onClick={() => setModalOpen(false)}
-                            className="shrink-0 flex items-center gap-1 px-2.5 py-1.5 bg-[#1B3A5C] text-white rounded-lg text-xs font-medium hover:bg-[#2E86AB]"
+                            className="shrink-0 flex items-center gap-1 px-2.5 py-1.5 bg-[#0F5257] text-white rounded-lg text-xs font-medium hover:bg-[#14B8A6]"
                             title="Open supplier to change supplier / edit this purchase"
                           >
                             <ExternalLink size={11} /> Manage
@@ -694,7 +694,7 @@ export default function Inventory() {
 
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : editItem ? t('inventory.update') : t('inventory.addProduct')}
             </button>
           </div>
@@ -731,13 +731,13 @@ export default function Inventory() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.quantity')} *</label>
               <input required type="number" min="0.01" step="0.01" value={stockForm.quantity}
                 onChange={e => setStockForm(f => ({ ...f, quantity: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.batchNumber')}</label>
               <input value={stockForm.batch_number} onChange={e => setStockForm(f => ({ ...f, batch_number: e.target.value }))}
                 dir="ltr"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             <div className="col-span-2">
@@ -747,20 +747,20 @@ export default function Inventory() {
                   <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.priceAFN')}</label>
                   <input type="number" min="0" step="0.01" value={stockForm.purchase_price}
                     onChange={e => setStockForm(f => ({ ...f, purchase_price: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.priceUSD')}</label>
                   <input type="number" min="0" step="0.01" value={stockForm.purchase_price_usd}
                     onChange={e => setStockForm(f => ({ ...f, purchase_price_usd: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.usdRate')}</label>
                   <input type="number" min="0" step="0.01" value={stockForm.usd_to_afn_rate}
                     onChange={e => setStockForm(f => ({ ...f, usd_to_afn_rate: e.target.value }))}
                     placeholder="e.g. 72"
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                 </div>
               </div>
               {parseFloat(stockForm.purchase_price_usd) > 0 && parseFloat(stockForm.usd_to_afn_rate) > 0 && (
@@ -782,18 +782,18 @@ export default function Inventory() {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.purchaseDate')}</label>
               <input type="date" value={stockForm.purchase_date} onChange={e => setStockForm(f => ({ ...f, purchase_date: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.supplierCompany')}</label>
               <input value={stockForm.supplier} onChange={e => setStockForm(f => ({ ...f, supplier: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             {stockModal?.type === 'medicine' && (
               <div className="col-span-2">
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('suppliers.medicineSupplierOptional')}</label>
                 <select value={selectedSupplierId} onChange={e => setSelectedSupplierId(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
                   <option value="">{t('common.optional')} — {t('suppliers.medicineSuppliers')}</option>
                   {medicineSuppliers.map(s => (
                     <option key={s.id} value={s.id}>{s.company_name}</option>
@@ -804,12 +804,12 @@ export default function Inventory() {
             <div className="col-span-2">
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
               <input value={stockForm.notes} onChange={e => setStockForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setStockModal(null)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB]">{t('inventory.addStock')}</button>
+            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6]">{t('inventory.addStock')}</button>
           </div>
         </form>
       </Modal>

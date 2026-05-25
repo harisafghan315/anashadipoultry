@@ -245,7 +245,7 @@ export default function SupplierDetail() {
           </h3>
           <button
             onClick={openNewDispatch}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1B3A5C] text-white rounded-lg text-sm font-medium hover:bg-[#2E86AB] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F5257] text-white rounded-lg text-sm font-medium hover:bg-[#14B8A6] transition-colors"
           >
             <Plus size={14} /> {t('suppliers.receiveDispatch')}
           </button>
@@ -371,7 +371,7 @@ export default function SupplierDetail() {
                 required
                 value={dispatchForm.product_name}
                 onChange={e => setDispatchForm(f => ({ ...f, product_name: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               >
                 <option value="">{t('suppliers.selectProduct')}</option>
                 {FEED_TYPES.map(name => <option key={name} value={name}>{name}</option>)}
@@ -386,7 +386,7 @@ export default function SupplierDetail() {
                 value={dispatchForm.bill_number}
                 onChange={e => setDispatchForm(f => ({ ...f, bill_number: e.target.value }))}
                 placeholder="e.g. BL-1042"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
 
@@ -422,14 +422,14 @@ export default function SupplierDetail() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('suppliers.dispatchDate')}</label>
               <input type="date" value={dispatchForm.dispatch_date}
                 onChange={e => setDispatchForm(f => ({ ...f, dispatch_date: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('suppliers.bags')} *</label>
               <input required type="number" min="1" step="1" value={dispatchForm.quantity}
                 onChange={e => setDispatchForm(f => ({ ...f, quantity: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             <div>
@@ -452,7 +452,7 @@ export default function SupplierDetail() {
               <input type="number" min="0" step="0.1" value={dispatchForm.weight_kg}
                 onChange={e => setDispatchForm(f => ({ ...f, weight_kg: e.target.value }))}
                 placeholder={t('common.optional')}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             <div>
@@ -460,7 +460,7 @@ export default function SupplierDetail() {
               <input type="number" min="0" step="0.01" value={dispatchForm.commission_per_bag}
                 onChange={e => setDispatchForm(f => ({ ...f, commission_per_bag: e.target.value }))}
                 placeholder="0"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             {qty > 0 && pricePerBag > 0 && (
@@ -490,7 +490,7 @@ export default function SupplierDetail() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
               <input value={dispatchForm.notes}
                 onChange={e => setDispatchForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
 
@@ -499,7 +499,7 @@ export default function SupplierDetail() {
               className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">
               {t('common.cancel')}
             </button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : editDispatch ? t('common.saveChanges') : t('suppliers.receiveDispatch')}
             </button>
           </div>
@@ -517,19 +517,19 @@ export default function SupplierDetail() {
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.amount')} (AFN) *</label>
             <input required type="number" min="0.01" step="0.01" value={paymentForm.amount}
               onChange={e => setPaymentForm(f => ({ ...f, amount: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
             <input type="date" value={paymentForm.payment_date}
               onChange={e => setPaymentForm(f => ({ ...f, payment_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <input value={paymentForm.notes}
               onChange={e => setPaymentForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           {!editPayment && (
             <label className="flex items-center gap-2 text-sm text-slate-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2 cursor-pointer">

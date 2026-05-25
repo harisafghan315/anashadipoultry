@@ -106,7 +106,7 @@ export default function StoreCash() {
               required type="number" min="0" step="0.01" autoFocus
               value={form.amount}
               onChange={e => setForm(f => ({ ...f, amount: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           {modal !== 'opening' && (
@@ -116,7 +116,7 @@ export default function StoreCash() {
                 <input
                   value={form.note}
                   onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
               </div>
               <div>
@@ -124,7 +124,7 @@ export default function StoreCash() {
                 <input
                   type="date" value={form.date}
                   onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
               </div>
             </>
@@ -134,7 +134,7 @@ export default function StoreCash() {
           )}
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setModal(null)} className="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : t('common.save')}
             </button>
           </div>

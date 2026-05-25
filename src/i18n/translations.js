@@ -1,7 +1,7 @@
 const translations = {
   en: {
     nav: {
-      dashboard: 'Dashboard',
+      dashboard: 'Home',
       roznamcha: 'Roznamcha',
       pos: 'Point of Sale',
       inventory: 'Inventory',
@@ -23,7 +23,7 @@ const translations = {
       users: 'Users & Access',
     },
     title: {
-      dashboard: 'Dashboard',
+      dashboard: 'Home',
       pos: 'Point of Sale',
       inventory: 'Inventory',
       farms: 'Farms',
@@ -818,7 +818,7 @@ const translations = {
 
   fa: {
     nav: {
-      dashboard: 'داشبورد',
+      dashboard: 'خانه',
       roznamcha: 'روزنامچه',
       pos: 'نقطه فروش',
       inventory: 'موجودی انبار',
@@ -840,7 +840,7 @@ const translations = {
       users: 'کاربران و دسترسی',
     },
     title: {
-      dashboard: 'داشبورد',
+      dashboard: 'خانه',
       pos: 'نقطه فروش',
       inventory: 'موجودی انبار',
       farms: 'فارم‌ها',
@@ -1635,7 +1635,7 @@ const translations = {
   },
   ps: {
     nav: {
-      dashboard: 'عمومي کتنه',
+      dashboard: 'کور',
       roznamcha: 'روزنامچه',
       pos: 'د خرڅلاو څانګه',
       inventory: 'د دوا زخیره',
@@ -1657,7 +1657,7 @@ const translations = {
       users: 'کاروونکي او لاسرسی',
     },
     title: {
-      dashboard: 'عمومي کتنه',
+      dashboard: 'کور',
       pos: 'د خرڅلاو څانګه',
       inventory: 'د دوا زخیره',
       farms: 'فارمونه',

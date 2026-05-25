@@ -82,7 +82,7 @@ export default function CommissionDealerDetail() {
           </Link>
           <div>
             <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-              <Handshake size={20} className="text-[#1B3A5C]" /> {dealer.name}
+              <Handshake size={20} className="text-[#0F5257]" /> {dealer.name}
             </h2>
             <p className="text-sm text-slate-500">
               {dealer.phone && <span dir="ltr">{dealer.phone}</span>}
@@ -315,7 +315,7 @@ export default function CommissionDealerDetail() {
               required type="number" min="0.01" step="0.01"
               value={paymentForm.amount}
               onChange={e => setPaymentForm(f => ({ ...f, amount: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -323,7 +323,7 @@ export default function CommissionDealerDetail() {
             <input
               type="date" value={paymentForm.payment_date}
               onChange={e => setPaymentForm(f => ({ ...f, payment_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -331,7 +331,7 @@ export default function CommissionDealerDetail() {
             <input
               value={paymentForm.notes}
               onChange={e => setPaymentForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">

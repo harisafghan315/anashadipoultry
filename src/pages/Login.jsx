@@ -26,10 +26,10 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-[#1B3A5C] to-[#2E86AB] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-[#0F5257] to-[#14B8A6] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <div className="w-16 h-16 mx-auto bg-white rounded-2xl flex items-center justify-center text-[#1B3A5C] font-bold text-3xl shadow-lg mb-4">
+          <div className="w-16 h-16 mx-auto bg-white rounded-2xl flex items-center justify-center text-[#0F5257] font-bold text-3xl shadow-lg mb-4">
             {logoLetter}
           </div>
           <h1 className="text-2xl font-bold text-white">{businessName}</h1>
@@ -53,7 +53,7 @@ export default function Login() {
                   placeholder="admin"
                   autoComplete="username"
                   dir="ltr"
-                  className="w-full ps-9 pe-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full ps-9 pe-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
               </div>
             </div>
@@ -69,7 +69,7 @@ export default function Login() {
                   onChange={e => setPassword(e.target.value)}
                   autoComplete="current-password"
                   dir="ltr"
-                  className="w-full ps-9 pe-16 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full ps-9 pe-16 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
                 <button
                   type="button"
@@ -84,7 +84,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#1B3A5C] hover:bg-[#2E86AB] text-white rounded-lg text-sm font-semibold transition-colors disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#0F5257] hover:bg-[#14B8A6] text-white rounded-lg text-sm font-semibold transition-colors disabled:opacity-60"
             >
               <LogIn size={16} />
               {submitting ? 'Signing in…' : 'Sign In'}

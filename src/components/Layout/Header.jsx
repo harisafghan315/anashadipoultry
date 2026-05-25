@@ -20,19 +20,19 @@ export default function Header({ onMenuClick, title }) {
   const logoLetter = (businessName || '?').trim().charAt(0).toUpperCase()
 
   return (
-    <header className="sticky top-0 z-10 bg-white border-b border-slate-200 px-4 py-3 flex items-center gap-4 shadow-sm">
+    <header className="sticky top-0 z-10 bg-white border-b border-slate-200 px-3 sm:px-4 py-3 flex items-center gap-2 sm:gap-4 shadow-sm">
       <button
         onClick={onMenuClick}
-        className="lg:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600"
+        className="lg:hidden p-2 -ms-1 rounded-lg hover:bg-slate-100 text-slate-600 shrink-0"
       >
         <Menu size={20} />
       </button>
 
-      <div className="flex-1">
-        <h1 className="text-lg font-semibold text-slate-800">{title}</h1>
+      <div className="flex-1 min-w-0">
+        <h1 className="text-base sm:text-lg font-semibold text-slate-800 truncate">{title}</h1>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
         {/* Store cash on hand — always visible */}
         {isAdmin && (
           <NavLink
@@ -51,14 +51,14 @@ export default function Header({ onMenuClick, title }) {
         )}
 
         {/* Language selector */}
-        <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden text-sm font-medium">
+        <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden text-xs sm:text-sm font-medium shrink-0">
           {LANGUAGES.map(({ code, label }) => (
             <button
               key={code}
               onClick={() => setLanguage(code)}
-              className={`px-3 py-1.5 transition-colors ${
+              className={`px-2 sm:px-3 py-1.5 transition-colors ${
                 lang === code
-                  ? 'bg-[#1B3A5C] text-white'
+                  ? 'bg-[#0F5257] text-white'
                   : 'text-slate-600 hover:bg-slate-50'
               }`}
               title={LANGUAGES.find(l => l.code === code)?.full}
@@ -72,7 +72,7 @@ export default function Header({ onMenuClick, title }) {
           <div className="text-xs font-medium text-slate-700">{businessName}</div>
           <div className="text-xs text-slate-400">{t('common.supplyStore')}</div>
         </div>
-        <div className="w-8 h-8 rounded-full bg-[#1B3A5C] text-white flex items-center justify-center text-sm font-bold">
+        <div className="w-8 h-8 rounded-full bg-[#0F5257] text-white flex items-center justify-center text-sm font-bold">
           {logoLetter}
         </div>
       </div>

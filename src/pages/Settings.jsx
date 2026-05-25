@@ -265,7 +265,7 @@ export default function Settings() {
       {/* Business Info */}
       <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-100">
         <div className="flex items-center gap-2 mb-4">
-          <Building2 size={18} className="text-[#1B3A5C]" />
+          <Building2 size={18} className="text-[#0F5257]" />
           <h3 className="font-semibold text-slate-700">{t('settings.businessInfo')}</h3>
         </div>
         <form onSubmit={saveSettings} className="space-y-4">
@@ -274,13 +274,13 @@ export default function Settings() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('settings.businessName')} *</label>
               <input required value={businessName} onChange={e => setBusinessName(e.target.value)}
                 placeholder="e.g. Royani Poultry"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('settings.businessNamePs')}</label>
               <input value={businessNamePs} onChange={e => setBusinessNamePs(e.target.value)}
                 dir="rtl" placeholder="نام به دری"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
           <p className="text-xs text-slate-400">{t('settings.businessNameNote')}</p>
@@ -288,20 +288,20 @@ export default function Settings() {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('settings.phone')}</label>
               <input value={businessPhone} onChange={e => setBusinessPhone(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('settings.lowStockDefault')}</label>
               <input type="number" min="0" value={lowStockDefault} onChange={e => setLowStockDefault(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('settings.address')}</label>
             <textarea rows={2} value={businessAddress} onChange={e => setBusinessAddress(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none" />
           </div>
-          <button type="submit" disabled={savingBiz} className="flex items-center gap-2 px-5 py-2 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] disabled:opacity-60 transition-colors">
+          <button type="submit" disabled={savingBiz} className="flex items-center gap-2 px-5 py-2 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] disabled:opacity-60 transition-colors">
             <Save size={15} /> {savingBiz ? t('common.saving') : t('settings.saveSettings')}
           </button>
         </form>
@@ -310,7 +310,7 @@ export default function Settings() {
       {/* Data Export */}
       <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-100">
         <div className="flex items-center gap-2 mb-4">
-          <Database size={18} className="text-[#1B3A5C]" />
+          <Database size={18} className="text-[#0F5257]" />
           <h3 className="font-semibold text-slate-700">{t('settings.dataBackup')}</h3>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -319,7 +319,7 @@ export default function Settings() {
             <Download size={15} /> {exporting ? t('settings.exporting') : t('settings.exportDb')}
           </button>
           <button onClick={recalculateFarmTotals} disabled={recalculating}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#2E86AB] text-white rounded-xl text-sm font-medium hover:bg-[#1B3A5C] disabled:opacity-60 transition-colors">
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#14B8A6] text-white rounded-xl text-sm font-medium hover:bg-[#0F5257] disabled:opacity-60 transition-colors">
             <Database size={15} /> {recalculating ? t('settings.recalculating') : t('settings.recalculate')}
           </button>
         </div>

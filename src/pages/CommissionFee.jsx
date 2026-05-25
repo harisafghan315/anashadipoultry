@@ -154,7 +154,7 @@ function CommissionEarnedSection() {
             <select
               value={dealerFilter}
               onChange={e => setDealerFilter(e.target.value)}
-              className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             >
               <option value="all">All dealers</option>
               {dealers.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
@@ -165,7 +165,7 @@ function CommissionEarnedSection() {
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             >
               <option value="all">All</option>
               <option value="closed">Finished only</option>
@@ -210,7 +210,7 @@ function CommissionEarnedSection() {
                 className="w-full flex items-center justify-between px-5 py-3 hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
-                  <Handshake size={16} className="text-[#1B3A5C]" />
+                  <Handshake size={16} className="text-[#0F5257]" />
                   <div className="text-start">
                     <div className="font-semibold text-slate-800">{g.name}</div>
                     <div className="text-xs text-slate-500">{g.cars.length} car{g.cars.length !== 1 ? 's' : ''} · {g.sold} sold chickens</div>
@@ -479,7 +479,7 @@ function ExpensesSection() {
             <input
               type="date" value={form.expense_date}
               onChange={e => setForm(f => ({ ...f, expense_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -488,7 +488,7 @@ function ExpensesSection() {
               rows={2} value={form.note}
               onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
               placeholder="Optional details"
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">

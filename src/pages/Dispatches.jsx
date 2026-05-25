@@ -63,19 +63,19 @@ export default function Dispatches() {
     {
       key: 'invoice_number', label: t('dispatches.invoice'),
       render: r => r.invoice_number
-        ? <span className="font-mono font-semibold text-[#1B3A5C]">#{r.invoice_number}</span>
+        ? <span className="font-mono font-semibold text-[#0F5257]">#{r.invoice_number}</span>
         : <span className="text-slate-400">—</span>
     },
     { key: 'farm', label: t('dispatches.farm'), render: r => <span className="font-medium">{lf(r.farms, 'name', lang) || '—'}</span> },
     { key: 'dispatch_date', label: t('common.date'), render: r => formatDate(r.dispatch_date) },
     { key: 'items', label: t('dispatches.items'), render: r => r.dispatch_items?.length || 0 },
-    { key: 'total_amount', label: t('common.amount'), render: r => <span className="font-semibold text-[#1B3A5C]">{formatCurrency(r.total_amount)}</span> },
+    { key: 'total_amount', label: t('common.amount'), render: r => <span className="font-semibold text-[#0F5257]">{formatCurrency(r.total_amount)}</span> },
     { key: 'notes', label: t('common.notes'), render: r => r.notes || '—' },
     {
       key: 'actions', label: '',
       render: r => (
         <div className="flex items-center gap-2">
-          <button onClick={() => openEdit(r)} className="p-1.5 text-slate-500 hover:text-[#1B3A5C] hover:bg-slate-100 rounded"><Edit2 size={14} /></button>
+          <button onClick={() => openEdit(r)} className="p-1.5 text-slate-500 hover:text-[#0F5257] hover:bg-slate-100 rounded"><Edit2 size={14} /></button>
           <button onClick={() => setDeleteTarget(r)} className="text-xs text-red-500 hover:text-red-700 hover:underline">{t('common.delete')}</button>
         </div>
       )
@@ -86,15 +86,15 @@ export default function Dispatches() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-3">
         <select value={farmFilter} onChange={e => setFarmFilter(e.target.value)}
-          className="flex-1 px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+          className="flex-1 px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
           <option value="">{t('common.allFarms')}</option>
           {farms.map(f => <option key={f.id} value={f.id}>{lf(f, 'name', lang)}</option>)}
         </select>
         <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
-          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
         <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
-          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
-        <button onClick={() => navigate('/dispatches/new')} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors whitespace-nowrap">
+          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+        <button onClick={() => navigate('/dispatches/new')} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors whitespace-nowrap">
           <Plus size={16} /> {t('dispatches.newDispatch')}
         </button>
       </div>
@@ -102,20 +102,20 @@ export default function Dispatches() {
       {filtered.length > 0 && (
         <div className="flex gap-4 text-sm text-slate-600">
           <span>{filtered.length} {t('dispatches.count')}</span>
-          <span>{t('common.total')}: <strong className="text-[#1B3A5C]">{formatCurrency(filtered.reduce((s, d) => s + (d.total_amount || 0), 0))}</strong></span>
+          <span>{t('common.total')}: <strong className="text-[#0F5257]">{formatCurrency(filtered.reduce((s, d) => s + (d.total_amount || 0), 0))}</strong></span>
         </div>
       )}
 
       <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-16 text-slate-400">
-            <div className="w-6 h-6 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
+            <div className="w-6 h-6 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-slate-400">
             <Truck size={40} className="mb-3 opacity-30" />
             <p className="text-sm">{t('dispatches.noDispatches')}</p>
-            <button onClick={() => navigate('/dispatches/new')} className="mt-3 text-sm text-[#2E86AB] hover:underline">{t('dispatches.createFirst')}</button>
+            <button onClick={() => navigate('/dispatches/new')} className="mt-3 text-sm text-[#14B8A6] hover:underline">{t('dispatches.createFirst')}</button>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -184,13 +184,13 @@ export default function Dispatches() {
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
                 <input type="date" value={editForm.dispatch_date} onChange={e => setEditForm(f => ({ ...f, dispatch_date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
               </div>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
               <input value={editForm.notes} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
 
             <div>
@@ -214,12 +214,12 @@ export default function Dispatches() {
                           <td className="px-3 py-2">
                             <input type="number" min="0.01" step="0.01" value={item.quantity}
                               onChange={e => setEditItems(items => items.map((it, i) => i === idx ? { ...it, quantity: e.target.value } : it))}
-                              className="w-full px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                              className="w-full px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                           </td>
                           <td className="px-3 py-2">
                             <input type="number" min="0" step="0.01" value={item.sell_price_at_time}
                               onChange={e => setEditItems(items => items.map((it, i) => i === idx ? { ...it, sell_price_at_time: e.target.value } : it))}
-                              className="w-full px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                              className="w-full px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                           </td>
                           <td className="px-3 py-2 text-end font-semibold text-slate-700">{formatCurrency(total)}</td>
                         </tr>
@@ -229,7 +229,7 @@ export default function Dispatches() {
                   <tfoot className="bg-slate-50 border-t-2 border-slate-200">
                     <tr>
                       <td colSpan={3} className="px-3 py-2 text-xs font-semibold text-slate-600">{t('dispatches.newTotal')}</td>
-                      <td className="px-3 py-2 text-end font-bold text-[#1B3A5C]">
+                      <td className="px-3 py-2 text-end font-bold text-[#0F5257]">
                         {formatCurrency(editItems.reduce((s, it) => s + parseFloat(it.quantity || 0) * parseFloat(it.sell_price_at_time || 0), 0))}
                       </td>
                     </tr>
@@ -241,7 +241,7 @@ export default function Dispatches() {
 
             <div className="flex gap-3 justify-end">
               <button type="button" onClick={() => setEditDispatch(null)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-              <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+              <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
                 {saving ? t('common.saving') : t('common.saveChanges')}
               </button>
             </div>

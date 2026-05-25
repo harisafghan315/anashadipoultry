@@ -151,7 +151,7 @@ export default function CashLedger() {
 
   if (loading) return (
     <div className="flex items-center justify-center h-64 text-slate-400">
-      <div className="w-8 h-8 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />
+      <div className="w-8 h-8 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />
       {t('common.loading')}
     </div>
   )
@@ -189,11 +189,11 @@ export default function CashLedger() {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder={t('cashLedger.searchPerson')}
-          className="flex-1 px-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+          className="flex-1 px-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
         />
         <button
           onClick={openAdd}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors whitespace-nowrap"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors whitespace-nowrap"
         >
           <Plus size={16} /> {t('cashLedger.addTransaction')}
         </button>
@@ -204,7 +204,7 @@ export default function CashLedger() {
         <div className="flex flex-col items-center justify-center py-20 text-slate-400">
           <Banknote size={40} className="mb-3 text-slate-200" />
           <p className="text-sm font-medium">{t('cashLedger.noTransactions')}</p>
-          <button onClick={openAdd} className="mt-3 text-sm text-[#2E86AB] hover:underline">
+          <button onClick={openAdd} className="mt-3 text-sm text-[#14B8A6] hover:underline">
             {t('cashLedger.recordFirst')}
           </button>
         </div>
@@ -220,7 +220,7 @@ export default function CashLedger() {
                   className="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors"
                   onClick={() => setExpanded(isExpanded ? null : person.name.toLowerCase())}
                 >
-                  <div className="w-10 h-10 rounded-full bg-[#1B3A5C]/10 text-[#1B3A5C] flex items-center justify-center font-bold text-sm shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-[#0F5257]/10 text-[#0F5257] flex items-center justify-center font-bold text-sm shrink-0">
                     {person.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -307,7 +307,7 @@ export default function CashLedger() {
                           </p>
                         </div>
                         <div className="flex flex-col gap-1 shrink-0">
-                          <button onClick={() => openEdit(tx)} className="p-1.5 text-slate-400 hover:text-[#1B3A5C] hover:bg-slate-100 rounded-lg">
+                          <button onClick={() => openEdit(tx)} className="p-1.5 text-slate-400 hover:text-[#0F5257] hover:bg-slate-100 rounded-lg">
                             <Edit2 size={13} />
                           </button>
                           <button onClick={() => setDeleteTarget(tx)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg">
@@ -366,7 +366,7 @@ export default function CashLedger() {
                 value={form.person_name}
                 onChange={e => setForm(f => ({ ...f, person_name: e.target.value }))}
                 placeholder={t('cashLedger.personNamePlaceholder')}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
             <div className="col-span-2 sm:col-span-1">
@@ -379,7 +379,7 @@ export default function CashLedger() {
                 required type="number" min="1" step="0.01"
                 value={form.amount}
                 onChange={e => setForm(f => ({ ...f, amount: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
             <div>
@@ -387,7 +387,7 @@ export default function CashLedger() {
               <input
                 type="date" value={form.transaction_date}
                 onChange={e => setForm(f => ({ ...f, transaction_date: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
             <div className="col-span-2">
@@ -396,7 +396,7 @@ export default function CashLedger() {
                 value={form.note}
                 onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
                 placeholder={t('cashLedger.notePlaceholder')}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
           </div>
@@ -459,12 +459,12 @@ export default function CashLedger() {
                   required type="number" min="0.01" step="0.01"
                   value={settleForm.amount}
                   onChange={e => setSettleForm(f => ({ ...f, amount: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
                 <button
                   type="button"
                   onClick={() => setSettleForm(f => ({ ...f, amount: String(settleTarget.outstanding) }))}
-                  className="text-xs text-[#2E86AB] hover:underline mt-1"
+                  className="text-xs text-[#14B8A6] hover:underline mt-1"
                 >
                   {t('pos.setFullAmount')}
                 </button>
@@ -475,7 +475,7 @@ export default function CashLedger() {
                   type="date"
                   value={settleForm.transaction_date}
                   onChange={e => setSettleForm(f => ({ ...f, transaction_date: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
               </div>
             </div>
@@ -485,7 +485,7 @@ export default function CashLedger() {
                 value={settleForm.note}
                 onChange={e => setSettleForm(f => ({ ...f, note: e.target.value }))}
                 placeholder={t('cashLedger.notePlaceholder')}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
             </div>
             <label className={`flex items-center gap-2 text-sm rounded-lg px-3 py-2 cursor-pointer border ${settleTarget.isReceiving ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700'}`}>

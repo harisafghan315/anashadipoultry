@@ -200,10 +200,10 @@ export default function NewDispatch() {
         {STEPS.map((s, i) => (
           <div key={s} className="flex items-center gap-2">
             <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors
-              ${step > i + 1 ? 'bg-green-500 text-white' : step === i + 1 ? 'bg-[#1B3A5C] text-white' : 'bg-slate-200 text-slate-500'}`}>
+              ${step > i + 1 ? 'bg-green-500 text-white' : step === i + 1 ? 'bg-[#0F5257] text-white' : 'bg-slate-200 text-slate-500'}`}>
               {step > i + 1 ? '✓' : i + 1}
             </div>
-            <span className={step === i + 1 ? 'text-[#1B3A5C] font-medium' : 'text-slate-400'}>{s}</span>
+            <span className={step === i + 1 ? 'text-[#0F5257] font-medium' : 'text-slate-400'}>{s}</span>
             {i < 2 && <div className="w-8 h-px bg-slate-200" />}
           </div>
         ))}
@@ -216,7 +216,7 @@ export default function NewDispatch() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('dispatches.farm')} *</label>
             <select value={farmId} onChange={e => setFarmId(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               <option value="">{t('dispatches.chooseFarm')}</option>
               <optgroup label={t('nav.farms')}>
                 {farms.filter(f => f.is_active && f.kind !== 'client').map(f => (
@@ -240,16 +240,16 @@ export default function NewDispatch() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('dispatches.dispatchDate')} *</label>
             <input type="date" value={dispatchDate} onChange={e => setDispatchDate(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <input value={notes} onChange={e => setNotes(e.target.value)} placeholder={t('common.optional')}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <button
             onClick={() => { if (!farmId) { toast.error(t('pos.selectFarmFirst')); return } setStep(2) }}
-            className="w-full py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors"
+            className="w-full py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors"
           >
             {t('common.next')}: {t('dispatches.step2')} →
           </button>
@@ -261,7 +261,7 @@ export default function NewDispatch() {
         <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-slate-700">{t('dispatches.step2Title')}</h3>
-            <button onClick={() => setCameraOpen(true)} className="flex items-center gap-1.5 text-sm text-[#2E86AB] hover:underline">
+            <button onClick={() => setCameraOpen(true)} className="flex items-center gap-1.5 text-sm text-[#14B8A6] hover:underline">
               <Camera size={14} /> {t('dispatches.scanBarcode')}
             </button>
           </div>
@@ -291,7 +291,7 @@ export default function NewDispatch() {
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               placeholder={`Search ${categoryTab === 'feed' ? 'feed / dana' : categoryTab}...`}
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           )}
 
@@ -314,7 +314,7 @@ export default function NewDispatch() {
                       <div className={`text-xs font-semibold ${p.quantity <= 0 ? 'text-red-500' : 'text-slate-600'}`}>
                         {p.quantity} {p.unit}
                       </div>
-                      <div className="text-xs font-medium text-[#1B3A5C]">{formatCurrency(p.sell_price)}</div>
+                      <div className="text-xs font-medium text-[#0F5257]">{formatCurrency(p.sell_price)}</div>
                     </div>
                   </button>
                 ))}
@@ -399,22 +399,22 @@ export default function NewDispatch() {
                     <input type="text" value={item.batch_number}
                       onChange={e => updateItem(idx, 'batch_number', e.target.value)}
                       placeholder={t('dispatches.batchNo')}
-                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   </div>
                   <div className="col-span-1">
                     <input type="number" min="0.01" step="0.01" value={item.quantity}
                       onChange={e => updateItem(idx, 'quantity', e.target.value)}
-                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   </div>
                   <div className="col-span-2">
                     <input type="number" min="0" step="0.01" value={item.purchase_price}
                       onChange={e => updateItem(idx, 'purchase_price', e.target.value)}
-                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   </div>
                   <div className="col-span-2">
                     <input type="number" min="0" step="0.01" value={item.sell_price}
                       onChange={e => updateItem(idx, 'sell_price', e.target.value)}
-                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   </div>
                   <div className="col-span-1 text-xs font-semibold text-green-600">
                     {formatCurrency(((parseFloat(item.sell_price) || 0) - (parseFloat(item.purchase_price) || 0)) * (parseFloat(item.quantity) || 0))}
@@ -433,7 +433,7 @@ export default function NewDispatch() {
             <div className="border-t border-slate-100 pt-3 flex justify-between items-center text-sm">
               <span className="text-slate-600">{items.length} {t('dispatches.items')}</span>
               <div className="text-end">
-                <div className="text-slate-600">{t('common.total')}: <span className="font-bold text-[#1B3A5C]">{formatCurrency(totalAmount)}</span></div>
+                <div className="text-slate-600">{t('common.total')}: <span className="font-bold text-[#0F5257]">{formatCurrency(totalAmount)}</span></div>
                 <div className="text-green-600 text-xs">{t('common.profit')}: {formatCurrency(totalProfit)}</div>
               </div>
             </div>
@@ -445,7 +445,7 @@ export default function NewDispatch() {
             </button>
             <button
               onClick={() => { if (items.length === 0) { toast.error(t('dispatches.atLeastOne')); return } setStep(3) }}
-              className="flex-1 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors"
+              className="flex-1 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors"
             >
               {t('dispatches.step3')} →
             </button>
@@ -484,7 +484,7 @@ export default function NewDispatch() {
             ))}
           </div>
 
-          <div className="bg-[#1B3A5C] rounded-xl p-4 text-white space-y-2 text-sm">
+          <div className="bg-[#0F5257] rounded-xl p-4 text-white space-y-2 text-sm">
             <div className="flex justify-between"><span className="text-white/70">{t('dispatches.totalAmount')}</span><span className="font-bold text-lg">{formatCurrency(totalAmount)}</span></div>
             <div className="flex justify-between"><span className="text-white/70">{t('dispatches.costOfGoods')}</span><span>{formatCurrency(totalCost)}</span></div>
             <div className="flex justify-between"><span className="text-white/70">{t('common.profit')}</span><span className="text-green-400 font-semibold">{formatCurrency(totalProfit)}</span></div>

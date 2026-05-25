@@ -1,0 +1,15 @@
+{
+  "name": "Anas Hadi Poultry Services",
+  "short_name": "Anas Hadi",
+  "description": "Poultry supply store management — inventory, farms, clients, dispatches, cash and Roznamcha.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#06191B",
+  "theme_color": "#0F5257",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

@@ -5,13 +5,13 @@ export default function StatCard({ title, value, icon: Icon, color = 'blue', sub
     red: 'bg-red-50 text-red-600',
     orange: 'bg-orange-50 text-orange-600',
     purple: 'bg-purple-50 text-purple-600',
-    navy: 'bg-[#1B3A5C]/10 text-[#1B3A5C]',
+    navy: 'bg-[#0F5257]/10 text-[#0F5257]',
   }
 
   return (
     <div
       onClick={onClick}
-      className={`bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow ${onClick ? 'cursor-pointer hover:border-[#2E86AB]/40' : ''}`}
+      className={`bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow ${onClick ? 'cursor-pointer hover:border-[#14B8A6]/40' : ''}`}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">

@@ -429,11 +429,11 @@ export default function MedicineSupplierDetail() {
             </label>
             <input required type="number" min="0.01" step="0.01" value={paymentForm.amount}
               onChange={e => setPaymentForm(f => ({ ...f, amount: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             {((paymentForm.currency === 'AFN' && remainingAFN > 0) || (paymentForm.currency === 'USD' && remainingUSD > 0)) && (
               <button type="button"
                 onClick={() => setPaymentForm(f => ({ ...f, amount: String(f.currency === 'USD' ? remainingUSD : remainingAFN) }))}
-                className="text-xs text-[#2E86AB] hover:underline mt-1"
+                className="text-xs text-[#14B8A6] hover:underline mt-1"
               >
                 {t('pos.setFullAmount')}
               </button>
@@ -443,13 +443,13 @@ export default function MedicineSupplierDetail() {
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
             <input type="date" value={paymentForm.payment_date}
               onChange={e => setPaymentForm(f => ({ ...f, payment_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <input value={paymentForm.notes}
               onChange={e => setPaymentForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           {!editPayment && paymentForm.currency === 'AFN' && (
             <label className="flex items-center gap-2 text-sm text-slate-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2 cursor-pointer">
@@ -476,13 +476,13 @@ export default function MedicineSupplierDetail() {
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('suppliers.companyName')} *</label>
             <input required value={editForm.company_name}
               onChange={e => setEditForm(f => ({ ...f, company_name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('suppliers.ownerName')}</label>
             <input value={editForm.owner_name}
               onChange={e => setEditForm(f => ({ ...f, owner_name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('suppliers.phone')}</label>
@@ -492,14 +492,14 @@ export default function MedicineSupplierDetail() {
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <textarea rows={3} value={editForm.notes}
               onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none" />
           </div>
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={() => setEditModal(false)}
               className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">
               {t('common.cancel')}
             </button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : t('common.saveChanges')}
             </button>
           </div>
@@ -538,7 +538,7 @@ export default function MedicineSupplierDetail() {
                 required
                 value={purchaseForm.supplier_id}
                 onChange={e => setPurchaseForm(f => ({ ...f, supplier_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               >
                 {medicineSuppliers.map(s => (
                   <option key={s.id} value={s.id}>
@@ -556,14 +556,14 @@ export default function MedicineSupplierDetail() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.quantity')} *</label>
               <input required type="number" min="0.01" step="0.01" value={purchaseForm.quantity}
                 onChange={e => setPurchaseForm(f => ({ ...f, quantity: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.batchNumber')}</label>
               <input value={purchaseForm.batch_number}
                 onChange={e => setPurchaseForm(f => ({ ...f, batch_number: e.target.value }))}
                 dir="ltr"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div className="col-span-1 sm:col-span-2">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">{t('inventory.purchasePrice')}</p>
@@ -572,19 +572,19 @@ export default function MedicineSupplierDetail() {
                   <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.priceAFN')}</label>
                   <input type="number" min="0" step="0.01" value={purchaseForm.purchase_price}
                     onChange={e => setPurchaseForm(f => ({ ...f, purchase_price: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.priceUSD')}</label>
                   <input type="number" min="0" step="0.01" value={purchaseForm.purchase_price_usd}
                     onChange={e => setPurchaseForm(f => ({ ...f, purchase_price_usd: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.usdRate')}</label>
                   <input type="number" min="0" step="0.01" value={purchaseForm.usd_to_afn_rate}
                     onChange={e => setPurchaseForm(f => ({ ...f, usd_to_afn_rate: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                 </div>
               </div>
               {parseFloat(purchaseForm.purchase_price_usd) > 0 && parseFloat(purchaseForm.usd_to_afn_rate) > 0 && (
@@ -598,13 +598,13 @@ export default function MedicineSupplierDetail() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('inventory.purchaseDate')}</label>
               <input type="date" value={purchaseForm.purchase_date}
                 onChange={e => setPurchaseForm(f => ({ ...f, purchase_date: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
               <input value={purchaseForm.notes}
                 onChange={e => setPurchaseForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
           <div className="flex gap-3 justify-end pt-2">
@@ -612,7 +612,7 @@ export default function MedicineSupplierDetail() {
               className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">
               {t('common.cancel')}
             </button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : t('common.saveChanges')}
             </button>
           </div>

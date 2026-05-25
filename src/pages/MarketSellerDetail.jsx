@@ -237,7 +237,7 @@ export default function MarketSellerDetail() {
 
   if (!seller) {
     return <div className="flex items-center justify-center h-64 text-slate-400">
-      <div className="w-8 h-8 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
+      <div className="w-8 h-8 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
     </div>
   }
 
@@ -248,7 +248,7 @@ export default function MarketSellerDetail() {
       </button>
 
       {/* Header */}
-      <div className="bg-[#1B3A5C] rounded-2xl p-5 text-white">
+      <div className="bg-[#0F5257] rounded-2xl p-5 text-white">
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -322,7 +322,7 @@ export default function MarketSellerDetail() {
           </div>
           <div>
             <div className="text-xs text-slate-500 mb-0.5">Net Profit</div>
-            <div className={`text-lg font-bold ${netProfit >= 0 ? 'text-[#1B3A5C]' : 'text-red-600'}`}>{formatCurrency(netProfit)}</div>
+            <div className={`text-lg font-bold ${netProfit >= 0 ? 'text-[#0F5257]' : 'text-red-600'}`}>{formatCurrency(netProfit)}</div>
           </div>
         </div>
       </div>
@@ -332,13 +332,13 @@ export default function MarketSellerDetail() {
         <button onClick={openAddPayment} className="flex items-center gap-2 px-4 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700 transition-colors">
           <CreditCard size={16} /> {t('market.recordPayment')}
         </button>
-        <button onClick={openAddTx} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+        <button onClick={openAddTx} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> {t('market.addTransaction')}
         </button>
       </div>
 
       {/* Transactions List */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-x-auto">
         {txLoading ? (
           <div className="py-16 text-center text-slate-400">{t('common.loading')}</div>
         ) : transactions.length === 0 ? (
@@ -391,7 +391,7 @@ export default function MarketSellerDetail() {
                       >
                         💸 {expensesByTx[tx.id]?.length || 0}
                       </button>
-                      <button onClick={() => openEditTx(tx)} className="p-1.5 text-slate-400 hover:text-[#1B3A5C] hover:bg-slate-100 rounded"><Edit2 size={15} /></button>
+                      <button onClick={() => openEditTx(tx)} className="p-1.5 text-slate-400 hover:text-[#0F5257] hover:bg-slate-100 rounded"><Edit2 size={15} /></button>
                       <button onClick={() => setTxDeleteTarget(tx)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded"><Trash2 size={15} /></button>
                     </div>
                   </td>
@@ -411,7 +411,7 @@ export default function MarketSellerDetail() {
       </div>
 
       {/* Seller Payments List */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-x-auto">
         <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
           <h3 className="font-semibold text-slate-700 flex items-center gap-2">
             <CreditCard size={16} /> {t('market.paymentsFromSeller')} ({sellerPayments.length})
@@ -467,7 +467,7 @@ export default function MarketSellerDetail() {
                 onFocus={() => { setFarmSearch(''); setFarmDropOpen(true) }}
                 placeholder={t('market.searchFarm')}
                 required={!txForm.farm_id}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
               {txForm.farm_id && !farmDropOpen && (
                 <button type="button" onClick={() => { setTxForm(f => ({ ...f, farm_id: '' })); setFarmSearch(''); setFarmDropOpen(true) }}
@@ -495,12 +495,12 @@ export default function MarketSellerDetail() {
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('market.billNumber')}</label>
               <input value={txForm.bill_number} onChange={e => setTxForm(f => ({ ...f, bill_number: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('market.transactionDate')}</label>
               <input type="date" value={txForm.transaction_date} onChange={e => setTxForm(f => ({ ...f, transaction_date: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
 
@@ -509,13 +509,13 @@ export default function MarketSellerDetail() {
               <label className="block text-xs font-medium text-slate-600 mb-1">🐔 {t('market.chickenCount')} *</label>
               <input required type="number" min="1" value={txForm.chicken_count}
                 onChange={e => handleTxChange('chicken_count', e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('market.pricePerChicken')}</label>
               <input type="number" min="0" step="0.01" value={txForm.price_per_chicken}
                 onChange={e => handleTxChange('price_per_chicken', e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
 
@@ -544,12 +544,12 @@ export default function MarketSellerDetail() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <textarea rows={2} value={txForm.notes} onChange={e => setTxForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none" />
           </div>
 
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setTxModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" disabled={saving || !txForm.farm_id} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving || !txForm.farm_id} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : editTxItem ? t('common.saveChanges') : t('market.addTransaction')}
             </button>
           </div>
@@ -562,13 +562,13 @@ export default function MarketSellerDetail() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.name')} *</label>
             <input required value={editForm.name || ''} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('market.shopNumber')}</label>
               <input value={editForm.shop_number || ''} onChange={e => setEditForm(f => ({ ...f, shop_number: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.phone')}</label>
@@ -578,11 +578,11 @@ export default function MarketSellerDetail() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <textarea rows={2} value={editForm.notes || ''} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none" />
           </div>
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setEditModal(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB]">{t('common.saveChanges')}</button>
+            <button type="submit" className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6]">{t('common.saveChanges')}</button>
           </div>
         </form>
       </Modal>
@@ -614,7 +614,7 @@ export default function MarketSellerDetail() {
               {remainingFromSeller > 0 && (
                 <button type="button"
                   onClick={() => setPaymentForm(f => ({ ...f, amount: String(remainingFromSeller) }))}
-                  className="text-xs text-[#2E86AB] hover:underline mt-1"
+                  className="text-xs text-[#14B8A6] hover:underline mt-1"
                 >
                   {t('pos.setFullAmount')}
                 </button>
@@ -705,23 +705,23 @@ export default function MarketSellerDetail() {
                   value={expenseForm.description}
                   onChange={ev => setExpenseForm(f => ({ ...f, description: ev.target.value }))}
                   placeholder="Description (transport, fees, etc.)"
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
                 <input
                   required type="number" min="0.01" step="0.01"
                   value={expenseForm.amount}
                   onChange={ev => setExpenseForm(f => ({ ...f, amount: ev.target.value }))}
                   placeholder="Amount (AFN)"
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
                 />
               </div>
               <input
                 type="date"
                 value={expenseForm.expense_date}
                 onChange={ev => setExpenseForm(f => ({ ...f, expense_date: ev.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
               />
-              <button type="submit" disabled={savingExpense} className="w-full py-2 bg-[#1B3A5C] text-white rounded-lg text-sm font-medium hover:bg-[#2E86AB] disabled:opacity-60">
+              <button type="submit" disabled={savingExpense} className="w-full py-2 bg-[#0F5257] text-white rounded-lg text-sm font-medium hover:bg-[#14B8A6] disabled:opacity-60">
                 {savingExpense ? t('common.saving') : '+ Add Expense'}
               </button>
             </form>

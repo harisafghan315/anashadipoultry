@@ -236,7 +236,7 @@ export default function CommissionCustomerDetail() {
               required type="number" min="0.01" step="0.01"
               value={paymentForm.amount}
               onChange={e => setPaymentForm(f => ({ ...f, amount: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -244,7 +244,7 @@ export default function CommissionCustomerDetail() {
             <input
               type="date" value={paymentForm.payment_date}
               onChange={e => setPaymentForm(f => ({ ...f, payment_date: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div>
@@ -252,7 +252,7 @@ export default function CommissionCustomerDetail() {
             <input
               value={paymentForm.notes}
               onChange={e => setPaymentForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">

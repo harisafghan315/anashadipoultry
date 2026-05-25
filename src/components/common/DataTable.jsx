@@ -12,7 +12,7 @@ export default function DataTable({ columns, data, loading, emptyMessage, pageSi
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16 text-slate-400">
-        <div className="w-6 h-6 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />
+        <div className="w-6 h-6 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />
         {t('common.loading')}
       </div>
     )

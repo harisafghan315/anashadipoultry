@@ -96,7 +96,7 @@ export default function SupplyPayments() {
         <select
           value={filterFarm}
           onChange={e => setFilterFarm(e.target.value)}
-          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 min-w-45"
+          className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 min-w-45"
         >
           <option value="">{t('common.allFarms')}</option>
           {farms.map(f => <option key={f.id} value={f.id}>{lf(f, 'name', lang)}</option>)}
@@ -104,10 +104,10 @@ export default function SupplyPayments() {
 
         <div className="flex items-center gap-2">
           <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
-            className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+            className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           <span className="text-slate-400 text-sm">{t('common.to')}</span>
           <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
-            className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+            className="px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
           {(dateFrom || dateTo) && (
             <button onClick={() => { setDateFrom(''); setDateTo('') }} className="text-xs text-slate-400 hover:text-slate-600 underline">
               {t('common.clear')}
@@ -117,12 +117,12 @@ export default function SupplyPayments() {
 
         <div className="flex-1" />
 
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#1B3A5C] text-white rounded-xl text-sm font-medium hover:bg-[#2E86AB] transition-colors">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-[#0F5257] text-white rounded-xl text-sm font-medium hover:bg-[#14B8A6] transition-colors">
           <Plus size={16} /> {t('supply.recordPayment')}
         </button>
       </div>
 
-      <div className="bg-[#1B3A5C] rounded-2xl p-5 text-white flex items-center gap-4">
+      <div className="bg-[#0F5257] rounded-2xl p-5 text-white flex items-center gap-4">
         <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
           <ShoppingBag size={24} />
         </div>
@@ -136,7 +136,7 @@ export default function SupplyPayments() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-x-auto">
         {loading ? (
           <div className="py-16 text-center text-slate-400">{t('common.loading')}</div>
         ) : filtered.length === 0 ? (
@@ -167,10 +167,10 @@ export default function SupplyPayments() {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-slate-400 text-xs">{p.notes || '—'}</td>
-                  <td className="px-4 py-3 text-end font-bold text-[#1B3A5C]">{formatCurrency(p.amount)}</td>
+                  <td className="px-4 py-3 text-end font-bold text-[#0F5257]">{formatCurrency(p.amount)}</td>
                   <td className="px-4 py-3 text-end">
                     <div className="flex items-center justify-end gap-1">
-                      <button onClick={() => openEdit(p)} className="p-1.5 text-slate-400 hover:text-[#1B3A5C] hover:bg-slate-100 rounded"><Edit2 size={15} /></button>
+                      <button onClick={() => openEdit(p)} className="p-1.5 text-slate-400 hover:text-[#0F5257] hover:bg-slate-100 rounded"><Edit2 size={15} /></button>
                       <button onClick={() => setDeleteTarget(p)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded"><Trash2 size={15} /></button>
                     </div>
                   </td>
@@ -180,7 +180,7 @@ export default function SupplyPayments() {
             <tfoot>
               <tr className="border-t-2 border-slate-200 bg-slate-50">
                 <td colSpan={4} className="px-4 py-3 text-sm font-semibold text-slate-600">{t('common.total')}</td>
-                <td className="px-4 py-3 text-end font-bold text-[#1B3A5C]">{formatCurrency(totalAmount)}</td>
+                <td className="px-4 py-3 text-end font-bold text-[#0F5257]">{formatCurrency(totalAmount)}</td>
                 <td />
               </tr>
             </tfoot>
@@ -196,7 +196,7 @@ export default function SupplyPayments() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('dispatches.farm')} *</label>
             <select required value={form.farm_id} onChange={e => setForm(f => ({ ...f, farm_id: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               <option value="">{t('common.selectFarm')}</option>
               {farms.filter(f => f.is_active).map(f => (
                 <option key={f.id} value={f.id}>{lf(f, 'name', lang)}</option>
@@ -206,7 +206,7 @@ export default function SupplyPayments() {
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('supply.supplyItem')} *</label>
             <select value={form.supply_item} onChange={e => setForm(f => ({ ...f, supply_item: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               {SUPPLY_ITEMS.map(item => <option key={item} value={item}>{bilingualSupply(item)}</option>)}
             </select>
           </div>
@@ -215,7 +215,7 @@ export default function SupplyPayments() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('supply.specifyItem')} *</label>
               <input required value={form.other_item} onChange={e => setForm(f => ({ ...f, other_item: e.target.value }))}
                 placeholder={t('supply.specifyPlaceholder')}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           )}
           <div className="grid grid-cols-2 gap-4">
@@ -223,18 +223,18 @@ export default function SupplyPayments() {
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('supply.amountAFN')}</label>
               <input required type="number" min="1" step="0.01" value={form.amount}
                 onChange={e => setForm(f => ({ ...f, amount: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
               <input type="date" value={form.payment_date} onChange={e => setForm(f => ({ ...f, payment_date: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30" />
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <textarea rows={2} value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30 resize-none" />
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 resize-none" />
           </div>
           {!editTarget && (
             <label className="flex items-center gap-2 text-sm text-slate-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2 cursor-pointer">
@@ -244,7 +244,7 @@ export default function SupplyPayments() {
           )}
           <div className="flex gap-3 justify-end">
             <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
-            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#1B3A5C] text-white rounded-lg hover:bg-[#2E86AB] disabled:opacity-60">
+            <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
               {saving ? t('common.saving') : editTarget ? t('common.saveChanges') : t('supply.recordPayment')}
             </button>
           </div>

@@ -69,7 +69,7 @@ export default function Receipt({ open, onClose, receipt }) {
           <div className="flex gap-2">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 px-4 py-1.5 bg-[#1B3A5C] text-white rounded-lg text-sm font-medium hover:bg-[#2E86AB]"
+              className="flex items-center gap-2 px-4 py-1.5 bg-[#0F5257] text-white rounded-lg text-sm font-medium hover:bg-[#14B8A6]"
             >
               <Printer size={15} /> {t('pos.printReceipt')}
             </button>

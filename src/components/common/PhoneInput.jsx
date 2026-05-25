@@ -37,7 +37,7 @@ export default function PhoneInput({ value, onChange, required = false, classNam
   }
 
   return (
-    <div className={`flex items-stretch border border-slate-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#2E86AB]/30 ${className}`} dir="ltr">
+    <div className={`flex items-stretch border border-slate-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#14B8A6]/30 ${className}`} dir="ltr">
       <span className="px-3 py-2 bg-slate-100 text-slate-600 text-sm font-medium border-e border-slate-200 select-none whitespace-nowrap">
         +93 (0)
       </span>

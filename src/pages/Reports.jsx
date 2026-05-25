@@ -12,7 +12,7 @@ import { supabase } from '../config/supabase'
 import { useLanguage } from '../contexts/LanguageContext'
 import { lf } from '../utils/localizedField'
 
-const COLORS = ['#1B3A5C', '#2E86AB', '#ef4444', '#f97316', '#8b5cf6', '#06b6d4']
+const COLORS = ['#0F5257', '#14B8A6', '#ef4444', '#f97316', '#8b5cf6', '#06b6d4']
 const CAT_ICONS = { fuel: '⛽', salary: '👤', rent: '🏢', maintenance: '🔧', utilities: '💡', other: '📦' }
 
 export default function Reports() {
@@ -117,7 +117,7 @@ export default function Reports() {
       <div className="flex gap-1 bg-white rounded-xl p-1 border border-slate-100 shadow-sm w-fit flex-wrap">
         {TABS.map(tabItem => (
           <button key={tabItem.key} onClick={() => setTab(tabItem.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === tabItem.key ? 'bg-[#1B3A5C] text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}>
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === tabItem.key ? 'bg-[#0F5257] text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}>
             {tabItem.label}
           </button>
         ))}
@@ -128,20 +128,20 @@ export default function Reports() {
         <div className="space-y-4">
           <div className="flex gap-3">
             <select value={selMonth} onChange={e => setSelMonth(Number(e.target.value))}
-              className="px-3 py-2 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+              className="px-3 py-2 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
                 <option key={m} value={m}>{new Date(2000, m - 1).toLocaleString('en', { month: 'long' })}</option>
               ))}
             </select>
             <select value={selYear} onChange={e => setSelYear(Number(e.target.value))}
-              className="px-3 py-2 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#2E86AB]/30">
+              className="px-3 py-2 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               {[2023, 2024, 2025, 2026].map(y => <option key={y} value={y}>{y}</option>)}
             </select>
           </div>
 
           {repLoading ? (
             <div className="flex items-center justify-center py-16 text-slate-400">
-              <div className="w-6 h-6 border-2 border-[#2E86AB] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
+              <div className="w-6 h-6 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin me-3" />{t('common.loading')}
             </div>
           ) : monthData && (
             <div className="space-y-4">
@@ -168,7 +168,7 @@ export default function Reports() {
                     <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
                     <Tooltip formatter={v => formatCurrency(v)} />
                     <Legend wrapperStyle={{ fontSize: 12 }} />
-                    <Bar dataKey="revenue" name={t('reports.revenue')} fill="#2E86AB" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="revenue" name={t('reports.revenue')} fill="#14B8A6" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="expenses" name={t('reports.monthExpenses')} fill="#ef4444" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -203,7 +203,7 @@ export default function Reports() {
                     <tr key={i} className="hover:bg-slate-50">
                       <td className="px-4 py-3 font-medium text-slate-700">{lf(f.farm, 'name', lang)}</td>
                       <td className="px-4 py-3 text-slate-500">{lf(f.farm, 'owner_name', lang)}</td>
-                      <td className="px-4 py-3 text-[#1B3A5C] font-medium">{formatCurrency(f.totalDispatched)}</td>
+                      <td className="px-4 py-3 text-[#0F5257] font-medium">{formatCurrency(f.totalDispatched)}</td>
                       <td className="px-4 py-3 text-green-700 font-medium">{formatCurrency(f.totalPaid)}</td>
                       <td className="px-4 py-3"><span className={`font-semibold ${f.debt > 0 ? 'text-red-700' : 'text-green-700'}`}>{formatCurrency(f.debt)}</span></td>
                       <td className="px-4 py-3 text-green-700 font-semibold">{formatCurrency(f.profit)}</td>
@@ -213,7 +213,7 @@ export default function Reports() {
                 <tfoot className="border-t-2 border-slate-200 bg-slate-50">
                   <tr>
                     <td colSpan={2} className="px-4 py-3 font-bold text-slate-700">{t('reports.totals')}</td>
-                    <td className="px-4 py-3 font-bold text-[#1B3A5C]">{formatCurrency(farmReports.reduce((s, f) => s + f.totalDispatched, 0))}</td>
+                    <td className="px-4 py-3 font-bold text-[#0F5257]">{formatCurrency(farmReports.reduce((s, f) => s + f.totalDispatched, 0))}</td>
                     <td className="px-4 py-3 font-bold text-green-700">{formatCurrency(farmReports.reduce((s, f) => s + f.totalPaid, 0))}</td>
                     <td className="px-4 py-3 font-bold text-red-700">{formatCurrency(farmReports.reduce((s, f) => s + f.debt, 0))}</td>
                     <td className="px-4 py-3 font-bold text-green-700">{formatCurrency(farmReports.reduce((s, f) => s + f.profit, 0))}</td>
@@ -235,7 +235,7 @@ export default function Reports() {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: t('reports.totalStockValue'), value: formatCurrency(stockValue), bg: 'bg-[#1B3A5C]', text: 'text-white' },
+              { label: t('reports.totalStockValue'), value: formatCurrency(stockValue), bg: 'bg-[#0F5257]', text: 'text-white' },
               { label: t('reports.totalProducts'), value: products.length, bg: 'bg-slate-100', text: 'text-slate-800' },
               { label: t('reports.lowStockItems'), value: lowStock.length, bg: 'bg-orange-50', text: 'text-orange-700' },
               { label: t('reports.expiringSoon'), value: expiringSoon.length + expired.length, bg: 'bg-red-50', text: 'text-red-700' },

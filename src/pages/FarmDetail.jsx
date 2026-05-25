@@ -762,26 +762,6 @@ export default function FarmDetail() {
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">{t('farms.initialChickenCount')}</label>
-              <input
-                type="number" min="0"
-                value={editForm.initial_chicken_count || 0}
-                onChange={e => setEditForm(f => ({ ...f, initial_chicken_count: parseInt(e.target.value) || 0 }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">{t('farms.pricePerChicken')}</label>
-              <input
-                type="number" min="0" step="0.01"
-                value={editForm.price_per_chicken || 0}
-                onChange={e => setEditForm(f => ({ ...f, price_per_chicken: parseFloat(e.target.value) || 0 }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
-              />
-            </div>
-          </div>
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
             <textarea rows={3} value={editForm.notes || ''} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))}

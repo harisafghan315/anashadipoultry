@@ -10,7 +10,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { lf } from '../utils/localizedField'
 import { FARM_OWNERSHIP_BI } from '../utils/biLabels'
 
-const emptyForm = { name: '', owner_name: '', phone: '', location: '', notes: '', is_active: true, initial_chicken_count: 0, price_per_chicken: 0, ownership: 'own' }
+const emptyForm = { name: '', owner_name: '', phone: '', location: '', notes: '', is_active: true, ownership: 'own' }
 
 export default function Farms({ entityKind = 'farm' }) {
   const navigate = useNavigate()
@@ -196,28 +196,6 @@ export default function Farms({ entityKind = 'farm' }) {
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
             </div>
           </div>
-          {!isClient && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">{t('farms.initialChickenCount')}</label>
-                <input
-                  type="number" min="0"
-                  value={form.initial_chicken_count || 0}
-                  onChange={e => setForm(f => ({ ...f, initial_chicken_count: parseInt(e.target.value) || 0 }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">{t('farms.pricePerChicken')}</label>
-                <input
-                  type="number" min="0" step="0.01"
-                  value={form.price_per_chicken || 0}
-                  onChange={e => setForm(f => ({ ...f, price_per_chicken: parseFloat(e.target.value) || 0 }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30"
-                />
-              </div>
-            </div>
-          )}
           {!isClient && (
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Farm type / نوع فارم</label>

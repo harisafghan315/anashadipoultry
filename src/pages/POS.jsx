@@ -417,8 +417,8 @@ export default function POS() {
               <p className="text-sm">{t('pos.emptyCart')}</p>
             </div>
           ) : (
-            <div>
-              <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wide px-1 mb-1">
+            <div className="overflow-x-auto">
+              <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wide px-1 mb-1 min-w-[520px]">
                 <div className="col-span-4">{t('dispatches.product')}</div>
                 <div className="col-span-2 text-center">{t('dispatches.quantity')}</div>
                 <div className="col-span-3 text-end">{t('pos.priceAFN')}</div>
@@ -427,7 +427,7 @@ export default function POS() {
               </div>
               <div className="space-y-1.5">
                 {cart.map((item, idx) => (
-                  <div key={item.meel_bill_id || item.product_id} className={`grid grid-cols-12 gap-2 items-center rounded-xl px-3 py-2 ${item.is_meel ? 'bg-amber-50 border border-amber-100' : 'bg-slate-50'}`}>
+                  <div key={item.meel_bill_id || item.product_id} className={`grid grid-cols-12 gap-2 items-center rounded-xl px-3 py-2 min-w-[520px] ${item.is_meel ? 'bg-amber-50 border border-amber-100' : 'bg-slate-50'}`}>
                     <div className="col-span-4">
                       <p className="text-sm font-medium text-slate-700 truncate">{item.name}</p>
                       {item.is_meel ? (

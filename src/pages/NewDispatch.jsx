@@ -361,8 +361,8 @@ export default function NewDispatch() {
               {t('dispatches.noItems')}
             </div>
           ) : (
-            <div className="space-y-2">
-              <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wide px-2">
+            <div className="space-y-2 overflow-x-auto">
+              <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wide px-2 min-w-[640px]">
                 <div className="col-span-3">{t('dispatches.product')}</div>
                 <div className="col-span-2">{t('dispatches.batchNo')}</div>
                 <div className="col-span-1">{t('dispatches.quantity')}</div>
@@ -372,7 +372,7 @@ export default function NewDispatch() {
                 <div className="col-span-1"></div>
               </div>
               {items.map((item, idx) => (
-                <div key={idx} className={`grid grid-cols-12 gap-2 items-center rounded-xl p-2 ${item.is_meel ? 'bg-amber-50 border border-amber-100' : 'bg-slate-50'}`}>
+                <div key={idx} className={`grid grid-cols-12 gap-2 items-center rounded-xl p-2 min-w-[640px] ${item.is_meel ? 'bg-amber-50 border border-amber-100' : 'bg-slate-50'}`}>
                   <div className="col-span-3">
                     <p className="text-sm font-medium text-slate-700 truncate">{item.name}</p>
                     {item.is_meel ? (

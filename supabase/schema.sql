@@ -665,3 +665,6 @@ create policy "Allow all" on cash_movements for all using (true) with check (tru
 
 -- Farm ownership: own vs contractor
 alter table farms add column if not exists ownership text not null default 'own';
+
+-- meel/feed dispatch sell price (profit tracking)
+alter table supplier_dispatches add column if not exists sell_price_per_bag numeric default 0;

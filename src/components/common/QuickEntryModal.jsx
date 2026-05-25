@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { supabase } from '../../config/supabase'
 import Modal from './Modal'
 import PhoneInput from './PhoneInput'
 import { useFarms } from '../../hooks/useFarms'
@@ -31,18 +32,24 @@ const emptyExp  = { title: '', amount: '', category: 'other', date: todayStr(), 
 const emptyCash  = { person_name: '', phone: '', amount: '', cashType: 'lent', date: todayStr(), notes: '' }
 const emptyStock = { product_id: '', quantity: '', purchase_price: '', batch_number: '', date: todayStr(), notes: '' }
 
+// Maps a Roznamcha feed entry._type to the modal's internal type key.
+const EDIT_TYPE_MAP = { dispatch: 'dispatch', payment: 'payment', expense: 'expense', cash_ledger: 'cash' }
+
 // One unified "notebook" entry form: pick a type, fill a few fields,
 // and the right underlying record is created (+ cash drawer updated).
-export default function QuickEntryModal({ open, onClose, onCreated }) {
+// When `editEntry` is passed, the modal opens in edit mode for that record.
+export default function QuickEntryModal({ open, onClose, onCreated, editEntry = null }) {
   const navigate = useNavigate()
   const { t, lang } = useLanguage()
   const { farms } = useFarms()
   const { products, addStockPurchase } = useInventory()
-  const { createDispatch } = useDispatches()
-  const { recordPayment } = usePayments()
-  const { addExpense } = useExpenses()
-  const { addTransaction: addCash } = useCashLedger()
-  const { recordIn, recordOut } = useStoreCash()
+  const { createDispatch, updateDispatch } = useDispatches()
+  const { recordPayment, updatePayment } = usePayments()
+  const { addExpense, updateExpense } = useExpenses()
+  const { addTransaction: addCash, updateTransaction: updateCash } = useCashLedger()
+  const { recordIn, recordOut, removeByReference } = useStoreCash()
+
+  const isEdit = !!editEntry
 
   const [type, setType] = useState('dispatch')
   const [storeCash, setStoreCash] = useState(true)
@@ -51,12 +58,51 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
   const [payForm,  setPayForm]  = useState(emptyPay)
   const [expForm,  setExpForm]  = useState(emptyExp)
   const [cashForm, setCashForm] = useState(emptyCash)
+  const [editDispatch, setEditDispatch] = useState(null) // full old dispatch (with items) for edits
+
+  // Pre-fill the form when opening in edit mode.
+  useEffect(() => {
+    if (!open || !editEntry) return
+    const mt = EDIT_TYPE_MAP[editEntry._type]
+    if (!mt) return
+    setType(mt)
+    if (mt === 'payment') {
+      setPayForm({ farm_id: editEntry.farm_id || '', amount: String(editEntry.amount ?? ''), date: editEntry.payment_date || todayStr(), notes: editEntry.notes || '' })
+    } else if (mt === 'expense') {
+      setExpForm({ title: editEntry.title || '', amount: String(editEntry.amount ?? ''), category: editEntry.category || 'other', date: editEntry.expense_date || todayStr(), notes: editEntry.notes || '' })
+    } else if (mt === 'cash') {
+      setCashForm({ person_name: editEntry.person_name || '', phone: editEntry.phone || '', amount: String(editEntry.amount ?? ''), cashType: editEntry.type || 'lent', date: editEntry.transaction_date || todayStr(), notes: editEntry.note || '' })
+    } else if (mt === 'dispatch') {
+      ;(async () => {
+        const { data } = await supabase.from('dispatches').select('*, dispatch_items(*)').eq('id', editEntry.id).single()
+        setEditDispatch(data || null)
+        const item = data?.dispatch_items?.[0]
+        setDispForm({
+          farm_id: data?.farm_id || '',
+          product_id: item?.product_id || '',
+          quantity: String(item?.quantity ?? '1'),
+          sell_price: String(item?.sell_price_at_time ?? ''),
+          purchase_price: String(item?.purchase_price_at_time ?? ''),
+          date: data?.dispatch_date || todayStr(),
+          notes: data?.notes || '',
+        })
+      })()
+    }
+    // Default the store-cash checkbox to whether a linked movement already exists.
+    if (mt === 'payment' || mt === 'expense' || mt === 'cash') {
+      ;(async () => {
+        const { data } = await supabase.from('cash_movements').select('id').eq('reference_id', editEntry.id).limit(1)
+        setStoreCash((data?.length || 0) > 0)
+      })()
+    }
+  }, [open, editEntry])
 
   function reset() {
     setDispForm({ ...emptyDisp, date: todayStr() })
     setPayForm({ ...emptyPay, date: todayStr() })
     setExpForm({ ...emptyExp, date: todayStr() })
     setCashForm({ ...emptyCash, date: todayStr() })
+    setEditDispatch(null)
     setStoreCash(true)
     setType('dispatch')
   }
@@ -88,60 +134,114 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
         const sellPrice = parseFloat(dispForm.sell_price) || 0
         const total = qty * sellPrice
         if (qty <= 0 || sellPrice <= 0) { toast.error('Quantity and price must be > 0'); return }
-        ok = await createDispatch(
-          { farm_id: dispForm.farm_id, dispatch_date: dispForm.date, total_amount: total, notes: dispForm.notes || null },
-          [{
-            product_id: dispForm.product_id,
-            quantity: qty,
-            sell_price: sellPrice,
-            purchase_price: parseFloat(dispForm.purchase_price) || 0,
-          }],
-        )
+        if (isEdit) {
+          const oldItem = editDispatch?.dispatch_items?.[0]
+          ok = await updateDispatch(
+            editEntry.id, editDispatch,
+            { dispatch_date: dispForm.date, notes: dispForm.notes || null },
+            [{
+              product_id: dispForm.product_id,
+              quantity: qty,
+              sell_price_at_time: sellPrice,
+              purchase_price_at_time: parseFloat(dispForm.purchase_price) || 0,
+              supplier_dispatch_id: oldItem?.supplier_dispatch_id || null,
+              batch_number: oldItem?.batch_number || null,
+            }],
+          )
+        } else {
+          ok = await createDispatch(
+            { farm_id: dispForm.farm_id, dispatch_date: dispForm.date, total_amount: total, notes: dispForm.notes || null },
+            [{
+              product_id: dispForm.product_id,
+              quantity: qty,
+              sell_price: sellPrice,
+              purchase_price: parseFloat(dispForm.purchase_price) || 0,
+            }],
+          )
+        }
       } else if (type === 'payment') {
         if (!payForm.farm_id) { toast.error('Pick a farm / client'); return }
         const amt = parseFloat(payForm.amount) || 0
         if (amt <= 0) { toast.error('Amount must be > 0'); return }
-        const result = await recordPayment({
-          farm_id: payForm.farm_id, amount: amt,
-          payment_date: payForm.date, notes: payForm.notes || null,
-        })
-        if (result) {
-          if (storeCash) {
-            const farm = farms.find(f => f.id === payForm.farm_id)
-            await recordIn({ amount: amt, source: 'payment', reference_id: result.id, note: lf(farm, 'name', lang) || farm?.name, date: payForm.date })
+        if (isEdit) {
+          ok = await updatePayment(editEntry.id, editEntry.amount || 0, payForm.farm_id, { amount: amt, payment_date: payForm.date, notes: payForm.notes || null })
+          if (ok) {
+            await removeByReference(editEntry.id)
+            if (storeCash) {
+              const farm = farms.find(f => f.id === payForm.farm_id)
+              await recordIn({ amount: amt, source: 'payment', reference_id: editEntry.id, note: lf(farm, 'name', lang) || farm?.name, date: payForm.date })
+            }
           }
-          ok = true
+        } else {
+          const result = await recordPayment({
+            farm_id: payForm.farm_id, amount: amt,
+            payment_date: payForm.date, notes: payForm.notes || null,
+          })
+          if (result) {
+            if (storeCash) {
+              const farm = farms.find(f => f.id === payForm.farm_id)
+              await recordIn({ amount: amt, source: 'payment', reference_id: result.id, note: lf(farm, 'name', lang) || farm?.name, date: payForm.date })
+            }
+            ok = true
+          }
         }
       } else if (type === 'expense') {
         if (!expForm.title?.trim()) { toast.error('Title is required'); return }
         const amt = parseFloat(expForm.amount) || 0
         if (amt <= 0) { toast.error('Amount must be > 0'); return }
-        const result = await addExpense({
-          title: expForm.title.trim(), amount: amt, category: expForm.category,
-          expense_date: expForm.date, notes: expForm.notes || null,
-        })
-        if (result) {
-          if (storeCash) {
-            await recordOut({ amount: amt, source: 'expense', reference_id: result.id, note: expForm.title.trim(), date: expForm.date })
+        if (isEdit) {
+          ok = await updateExpense(editEntry.id, {
+            title: expForm.title.trim(), amount: amt, category: expForm.category,
+            expense_date: expForm.date, notes: expForm.notes || null,
+          })
+          if (ok) {
+            await removeByReference(editEntry.id)
+            if (storeCash) await recordOut({ amount: amt, source: 'expense', reference_id: editEntry.id, note: expForm.title.trim(), date: expForm.date })
           }
-          ok = true
+        } else {
+          const result = await addExpense({
+            title: expForm.title.trim(), amount: amt, category: expForm.category,
+            expense_date: expForm.date, notes: expForm.notes || null,
+          })
+          if (result) {
+            if (storeCash) {
+              await recordOut({ amount: amt, source: 'expense', reference_id: result.id, note: expForm.title.trim(), date: expForm.date })
+            }
+            ok = true
+          }
         }
       } else if (type === 'cash') {
         if (!cashForm.person_name?.trim()) { toast.error('Person name is required'); return }
         const amt = parseFloat(cashForm.amount) || 0
         if (amt <= 0) { toast.error('Amount must be > 0'); return }
-        const result = await addCash({
-          person_name: cashForm.person_name, phone: cashForm.phone,
-          amount: amt, type: cashForm.cashType,
-          note: cashForm.notes, transaction_date: cashForm.date,
-        })
-        if (result) {
-          if (storeCash) {
-            const payload = { amount: amt, source: 'loan', reference_id: result.id, note: cashForm.person_name.trim(), date: cashForm.date }
-            if (cashForm.cashType === 'lent') await recordOut(payload)
-            else await recordIn(payload)
+        if (isEdit) {
+          ok = await updateCash(editEntry.id, {
+            person_name: cashForm.person_name, phone: cashForm.phone,
+            amount: amt, type: cashForm.cashType,
+            note: cashForm.notes, transaction_date: cashForm.date,
+          })
+          if (ok) {
+            await removeByReference(editEntry.id)
+            if (storeCash) {
+              const payload = { amount: amt, source: 'loan', reference_id: editEntry.id, note: cashForm.person_name.trim(), date: cashForm.date }
+              if (cashForm.cashType === 'lent') await recordOut(payload)
+              else await recordIn(payload)
+            }
           }
-          ok = true
+        } else {
+          const result = await addCash({
+            person_name: cashForm.person_name, phone: cashForm.phone,
+            amount: amt, type: cashForm.cashType,
+            note: cashForm.notes, transaction_date: cashForm.date,
+          })
+          if (result) {
+            if (storeCash) {
+              const payload = { amount: amt, source: 'loan', reference_id: result.id, note: cashForm.person_name.trim(), date: cashForm.date }
+              if (cashForm.cashType === 'lent') await recordOut(payload)
+              else await recordIn(payload)
+            }
+            ok = true
+          }
         }
       }
     } finally {
@@ -150,7 +250,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
 
     if (ok) {
       reset()
-      onCreated?.()
+      onCreated?.(isEdit)
       onClose()
     }
   }
@@ -173,31 +273,33 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
     : 'bg-emerald-50 border-emerald-200 text-emerald-700'
 
   return (
-    <Modal open={open} onClose={() => { reset(); onClose() }} title="📓 New Roznamcha Entry" size="lg">
+    <Modal open={open} onClose={() => { reset(); onClose() }} title={isEdit ? '✏️ Edit Roznamcha Entry' : '📓 New Roznamcha Entry'} size="lg">
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Type selector */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-          {TYPES.map(tt => (
-            <button
-              key={tt.key}
-              type="button"
-              onClick={() => setType(tt.key)}
-              className={`px-3 py-3 rounded-xl border-2 text-center transition-colors ${type === tt.key ? 'border-[#0F5257] bg-[#0F5257] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
-            >
-              <div className="text-xl">{tt.icon}</div>
-              <div className="text-xs font-semibold mt-1">{tt.label}</div>
-              <div className={`text-[10px] mt-0.5 ${type === tt.key ? 'text-white/70' : 'text-slate-400'}`}>{tt.sub}</div>
-            </button>
-          ))}
-        </div>
+        {/* Type selector — hidden in edit mode (the type can't change) */}
+        {!isEdit && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+            {TYPES.map(tt => (
+              <button
+                key={tt.key}
+                type="button"
+                onClick={() => setType(tt.key)}
+                className={`px-3 py-3 rounded-xl border-2 text-center transition-colors ${type === tt.key ? 'border-[#0F5257] bg-[#0F5257] text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+              >
+                <div className="text-xl">{tt.icon}</div>
+                <div className="text-xs font-semibold mt-1">{tt.label}</div>
+                <div className={`text-[10px] mt-0.5 ${type === tt.key ? 'text-white/70' : 'text-slate-400'}`}>{tt.sub}</div>
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Dispatch fields */}
         {type === 'dispatch' && (
           <div className="space-y-3">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Send to *</label>
-              <select required value={dispForm.farm_id} onChange={e => setDispForm(f => ({ ...f, farm_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
+              <select required disabled={isEdit} value={dispForm.farm_id} onChange={e => setDispForm(f => ({ ...f, farm_id: e.target.value }))}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 disabled:bg-slate-100 disabled:text-slate-500">
                 <option value="">— pick farm or client —</option>
                 {activeFarms.length > 0 && (
                   <optgroup label={t('nav.farms')}>
@@ -265,8 +367,8 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
           <div className="space-y-3">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Payment from *</label>
-              <select required value={payForm.farm_id} onChange={e => setPayForm(f => ({ ...f, farm_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
+              <select required disabled={isEdit} value={payForm.farm_id} onChange={e => setPayForm(f => ({ ...f, farm_id: e.target.value }))}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 disabled:bg-slate-100 disabled:text-slate-500">
                 <option value="">— pick farm or client —</option>
                 {activeFarms.length > 0 && (
                   <optgroup label={t('nav.farms')}>
@@ -424,7 +526,7 @@ export default function QuickEntryModal({ open, onClose, onCreated }) {
           <button type="button" onClick={() => { reset(); onClose() }} className="px-4 py-2 text-sm text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">{t('common.cancel')}</button>
           {type !== 'stock' && (
             <button type="submit" disabled={saving} className="px-5 py-2 text-sm font-medium bg-[#0F5257] text-white rounded-lg hover:bg-[#14B8A6] disabled:opacity-60">
-              {saving ? t('common.saving') : '+ Add Entry'}
+              {saving ? t('common.saving') : isEdit ? t('common.save') : '+ Add Entry'}
             </button>
           )}
         </div>

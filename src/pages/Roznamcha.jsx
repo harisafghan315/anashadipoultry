@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, BookOpen, RefreshCw, Plus, Trash2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, BookOpen, RefreshCw, Plus, Trash2, Pencil } from 'lucide-react'
 import { useRoznamcha } from '../hooks/useRoznamcha'
 import { useStoreCash } from '../contexts/StoreCashContext'
 import ConfirmDialog from '../components/common/ConfirmDialog'
@@ -34,7 +34,11 @@ function formatDayLabel(dateStr) {
   return d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-function EntryCard({ entry, onDelete }) {
+// Types that can be edited in place via the QuickEntry modal. A dispatch is only
+// inline-editable when it has a single line item (the quick modal is single-product).
+const EDITABLE_TYPES = { dispatch: true, payment: true, expense: true, cash_ledger: true }
+
+function EntryCard({ entry, onDelete, onEdit }) {
   const { t, lang } = useLanguage()
 
   const TYPE_CONFIG = {
@@ -58,6 +62,8 @@ function EntryCard({ entry, onDelete }) {
 
   const cfg = TYPE_CONFIG[entry._type]
   const time = entryTime(entry)
+  const canEdit = !!EDITABLE_TYPES[entry._type] &&
+    !(entry._type === 'dispatch' && (entry.dispatch_items?.length || 0) > 1)
 
   let title = ''
   let detail = ''
@@ -198,6 +204,15 @@ function EntryCard({ entry, onDelete }) {
       <div className="shrink-0 text-end">
         <p className={`font-bold text-base ${cfg.amountColor}`}>{formatCurrency(amount)}</p>
       </div>
+      {canEdit && (
+        <button
+          onClick={() => onEdit(entry)}
+          title={t('common.edit')}
+          className="shrink-0 p-1.5 rounded-lg text-slate-300 hover:bg-blue-50 hover:text-blue-500 transition-colors"
+        >
+          <Pencil size={15} />
+        </button>
+      )}
       <button
         onClick={() => onDelete(entry)}
         title={t('common.delete')}
@@ -214,6 +229,7 @@ export default function Roznamcha() {
   const [date, setDate] = useState(todayStr())
   const [quickOpen, setQuickOpen] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
+  const [editTarget, setEditTarget] = useState(null)
   const { entries, loading, refetch, deleteEntry } = useRoznamcha(date)
   const { refetch: refetchCash } = useStoreCash()
 
@@ -350,7 +366,7 @@ export default function Roznamcha() {
             <p className="text-slate-300 text-sm mt-1">{t('roznamcha.noActivitySub')}</p>
           </div>
         ) : (
-          entries.map((entry, i) => <EntryCard key={`${entry._type}-${entry.id}-${i}`} entry={entry} onDelete={setDeleteTarget} />)
+          entries.map((entry, i) => <EntryCard key={`${entry._type}-${entry.id}-${i}`} entry={entry} onDelete={setDeleteTarget} onEdit={setEditTarget} />)
         )}
       </div>
 
@@ -379,9 +395,10 @@ export default function Roznamcha() {
       )}
 
       <QuickEntryModal
-        open={quickOpen}
-        onClose={() => setQuickOpen(false)}
-        onCreated={() => { setDate(todayStr()); refetch() }}
+        open={quickOpen || !!editTarget}
+        editEntry={editTarget}
+        onClose={() => { setQuickOpen(false); setEditTarget(null) }}
+        onCreated={(wasEdit) => { if (!wasEdit) setDate(todayStr()); refetch(); refetchCash() }}
       />
 
       <ConfirmDialog

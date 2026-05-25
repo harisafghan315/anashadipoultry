@@ -224,6 +224,8 @@ create table if not exists supplier_payments (
   notes text,
   created_at timestamp with time zone default now()
 );
+-- USD payments (medicine suppliers); code always writes amount_usd (0 for AFN).
+alter table supplier_payments add column if not exists amount_usd numeric default 0;
 
 alter table suppliers disable row level security;
 alter table supplier_dispatches disable row level security;

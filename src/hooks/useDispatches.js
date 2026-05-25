@@ -61,7 +61,13 @@ export function useDispatches(farmId = null) {
     }))
 
     const { error: itemsError } = await supabase.from('dispatch_items').insert(itemsToInsert)
-    if (itemsError) { toast.error(itemsError.message); return false }
+    if (itemsError) {
+      // Roll back the parent dispatch so a failed items insert never leaves an
+      // orphan dispatch (phantom row with no products, inflating farm totals).
+      await supabase.from('dispatches').delete().eq('id', dispatchData.id)
+      toast.error(itemsError.message)
+      return false
+    }
 
     for (const item of items) {
       const { data: product } = await supabase

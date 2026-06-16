@@ -86,7 +86,7 @@ export function useSarafDetail(sarafId) {
     const [sRes, inRes, outRes] = await Promise.all([
       supabase.from('sarafs').select('*').eq('id', sarafId).single(),
       supabase.from('payments').select('*, farms(name, name_fa, name_ps), supplier_dispatches(bill_number, suppliers(company_name))').eq('saraf_id', sarafId).order('payment_date', { ascending: false }),
-      supabase.from('supplier_payments').select('*, suppliers(company_name), supplier_dispatches(bill_number)').eq('saraf_id', sarafId).order('payment_date', { ascending: false }),
+      supabase.from('supplier_payments').select('*, suppliers(company_name), supplier_dispatches(bill_number), farms(name, name_fa, name_ps, kind)').eq('saraf_id', sarafId).order('payment_date', { ascending: false }),
     ])
     if (sRes.error) { toast.error(sRes.error.message); setLoading(false); return }
     setSaraf(sRes.data)
@@ -134,6 +134,7 @@ export function useSarafDetail(sarafId) {
       notes: data.notes?.trim() || null,
       saraf_id: sarafId,
       supplier_dispatch_id: data.supplier_dispatch_id || null,
+      farm_id: data.farm_id || null,
     }])
     if (error) { toast.error(error.message); return false }
     toast.success('Payment recorded')

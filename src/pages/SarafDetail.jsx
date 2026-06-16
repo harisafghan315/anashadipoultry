@@ -13,7 +13,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { lf } from '../utils/localizedField'
 
 const emptyIn = { farm_id: '', supplier_dispatch_id: '', amount: '', payment_date: todayStr(), notes: '' }
-const emptyOut = { supplier_id: '', supplier_dispatch_id: '', amount: '', payment_date: todayStr(), notes: '' }
+const emptyOut = { supplier_id: '', supplier_dispatch_id: '', farm_id: '', amount: '', payment_date: todayStr(), notes: '' }
 
 export default function SarafDetail() {
   const { id } = useParams()
@@ -64,10 +64,15 @@ export default function SarafDetail() {
     ;(async () => {
       const { data } = await supabase
         .from('supplier_dispatches')
-        .select('id, bill_number, dispatch_date, quantity, price_per_bag, total_amount')
+        .select('id, bill_number, dispatch_date, quantity, price_per_bag, total_amount, dispatch_items(dispatches(farm_id, farms(id, name, name_fa, name_ps)))')
         .eq('supplier_id', outForm.supplier_id)
         .order('dispatch_date', { ascending: false })
-      setSupplierBills(data || [])
+      // Flatten the linked client (first dispatch_item is enough for broker bills).
+      const bills = (data || []).map(b => {
+        const farm = b.dispatch_items?.[0]?.dispatches?.farms
+        return { ...b, _client: farm || null }
+      })
+      setSupplierBills(bills)
     })()
   }, [txModal, outForm.supplier_id])
 
@@ -112,11 +117,20 @@ export default function SarafDetail() {
     for (const p of inbound) {
       const fid = p.farm_id
       if (!fid) continue
-      if (!m[fid]) m[fid] = { id: fid, name: lf(p.farms, 'name', lang) || '—', kind: p.farms?.kind, total: 0, count: 0 }
-      m[fid].total += parseFloat(p.amount) || 0
-      m[fid].count += 1
+      if (!m[fid]) m[fid] = { id: fid, name: lf(p.farms, 'name', lang) || '—', kind: p.farms?.kind, in_total: 0, out_total: 0, count_in: 0, count_out: 0 }
+      m[fid].in_total += parseFloat(p.amount) || 0
+      m[fid].count_in += 1
     }
-    return Object.values(m).sort((a, b) => b.total - a.total)
+    for (const p of outbound) {
+      const fid = p.farm_id
+      if (!fid) continue
+      if (!m[fid]) m[fid] = { id: fid, name: lf(p.farms, 'name', lang) || '—', kind: p.farms?.kind, in_total: 0, out_total: 0, count_in: 0, count_out: 0 }
+      m[fid].out_total += parseFloat(p.amount) || 0
+      m[fid].count_out += 1
+    }
+    return Object.values(m)
+      .map(c => ({ ...c, net: c.in_total - c.out_total }))
+      .sort((a, b) => b.net - a.net)
   })()
   const supplierBalances = (() => {
     const m = {}
@@ -180,22 +194,33 @@ export default function SarafDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-white rounded-xl border border-slate-100 shadow-sm">
             <div className="px-5 py-3 border-b border-slate-100">
-              <h3 className="font-semibold text-slate-700 text-sm">Clients holding money with Saraf</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Sum of every payment they've sent in</p>
+              <h3 className="font-semibold text-slate-700 text-sm">Client / farm net balance with Saraf</h3>
+              <p className="text-xs text-slate-500 mt-0.5">In from them − Out paid on their behalf</p>
             </div>
             {clientBalances.length === 0 ? (
-              <p className="text-center py-5 text-slate-400 text-sm">— no client payments yet —</p>
+              <p className="text-center py-5 text-slate-400 text-sm">— no client activity yet —</p>
             ) : (
               <div className="divide-y divide-slate-50">
-                {clientBalances.map(c => (
-                  <div key={c.id} className="px-5 py-2.5 flex items-center justify-between text-sm">
-                    <div className="min-w-0">
-                      <p className="font-medium text-slate-800 truncate">{c.name} {c.kind === 'client' && <span className="text-xs text-slate-400">· Client</span>}</p>
-                      <p className="text-xs text-slate-500">{c.count} payment{c.count === 1 ? '' : 's'}</p>
+                {clientBalances.map(c => {
+                  const netColor = c.net > 0 ? 'text-amber-700' : c.net < 0 ? 'text-red-700' : 'text-emerald-700'
+                  const netLabel = c.net > 0 ? 'Saraf holds' : c.net < 0 ? 'Owes Saraf' : 'Settled'
+                  return (
+                    <div key={c.id} className="px-5 py-2.5 flex items-center justify-between text-sm gap-3">
+                      <div className="min-w-0">
+                        <p className="font-medium text-slate-800 truncate">{c.name} {c.kind === 'client' && <span className="text-xs text-slate-400">· Client</span>}</p>
+                        <p className="text-xs text-slate-500">
+                          {c.count_in > 0 && <span className="text-green-600">+{formatCurrency(c.in_total)} in</span>}
+                          {c.count_in > 0 && c.count_out > 0 && <span className="text-slate-400"> · </span>}
+                          {c.count_out > 0 && <span className="text-red-600">−{formatCurrency(c.out_total)} out</span>}
+                        </p>
+                      </div>
+                      <div className="text-end shrink-0">
+                        <p className={`font-bold ${netColor}`}>{formatCurrency(Math.abs(c.net))}</p>
+                        <p className="text-[10px] text-slate-400">{netLabel}</p>
+                      </div>
                     </div>
-                    <p className="font-bold text-green-700">{formatCurrency(c.total)}</p>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>
@@ -279,9 +304,17 @@ export default function SarafDetail() {
                 <div key={p.id} className="px-5 py-3 flex items-center gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-slate-800 truncate">{p.suppliers?.company_name || '—'}</p>
-                    {p.supplier_dispatches && (
-                      <p className="text-xs text-slate-600 mt-0.5">
-                        → <span className="font-mono bg-blue-100 text-blue-700 px-1 rounded">Bill #{p.supplier_dispatches.bill_number || '—'}</span>
+                    {(p.farms || p.supplier_dispatches) && (
+                      <p className="text-xs text-slate-600 mt-0.5 flex items-center gap-1 flex-wrap">
+                        {p.farms && (
+                          <>
+                            <span className="text-slate-400">on behalf of</span>
+                            <span className="font-medium text-emerald-700">{lf(p.farms, 'name', lang)}</span>
+                          </>
+                        )}
+                        {p.supplier_dispatches && (
+                          <span className="font-mono bg-blue-100 text-blue-700 px-1 rounded">Bill #{p.supplier_dispatches.bill_number || '—'}</span>
+                        )}
                       </p>
                     )}
                     <p className="text-xs text-slate-500">{formatDate(p.payment_date)}{p.notes ? ` · ${p.notes}` : ''}</p>
@@ -382,6 +415,7 @@ export default function SarafDetail() {
                   setOutForm(f => ({
                     ...f,
                     supplier_dispatch_id: e.target.value,
+                    farm_id: bill?._client?.id || f.farm_id,
                     amount: bill ? String(bill.total_amount || (bill.quantity || 0) * (bill.price_per_bag || 0)) : f.amount,
                   }))
                 }}
@@ -389,7 +423,7 @@ export default function SarafDetail() {
                 <option value="">— pick a bill —</option>
                 {supplierBills.map(b => (
                   <option key={b.id} value={b.id}>
-                    Bill #{b.bill_number || '—'} · {formatDate(b.dispatch_date)} · {b.quantity} bags · {formatCurrency(b.total_amount)}
+                    Bill #{b.bill_number || '—'} · {b._client ? lf(b._client, 'name', lang) : 'no client'} · {b.quantity} bags · {formatCurrency(b.total_amount)}
                   </option>
                 ))}
               </select>
@@ -398,6 +432,16 @@ export default function SarafDetail() {
               )}
             </div>
           )}
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">On behalf of client / farm <span className="text-slate-400 font-normal">(optional)</span></label>
+            <select value={outForm.farm_id}
+              onChange={e => setOutForm(f => ({ ...f, farm_id: e.target.value }))}
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
+              <option value="">— direct payment (no client) —</option>
+              {activeFarms.map(f => <option key={f.id} value={f.id}>{lf(f, 'name', lang)} ({f.kind === 'client' ? 'Client' : 'Farm'})</option>)}
+            </select>
+            <p className="text-xs text-slate-400 mt-1">If picking a bill above auto-fills this, the client came from the bill. You can change it.</p>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Amount (AFN) *</label>

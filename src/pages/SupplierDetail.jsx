@@ -270,6 +270,50 @@ export default function SupplierDetail() {
         </div>
       </div>
 
+      {/* Per-Dana-type breakdown — sum each type's bills / consumed / remaining
+          from the bills loaded above. Useful even in broker mode for "how
+          many 9-Number bags have we billed through this meel" type questions. */}
+      {(() => {
+        const byType = {}
+        for (const d of dispatches) {
+          const key = d.dana_type || 'other'
+          if (!byType[key]) byType[key] = { type: key, received: 0, dispatched: 0 }
+          byType[key].received += d.quantity || 0
+          byType[key].dispatched += dispatchedByBill[d.id] || 0
+        }
+        const order = DANA_OPTIONS.map(o => o.value)
+        const rows = Object.values(byType)
+          .map(s => ({ ...s, remaining: Math.max(0, s.received - s.dispatched) }))
+          .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
+        if (rows.length === 0) return null
+        return (
+          <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-4">
+            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+              Bags Billed — by {t('suppliers.danaType')}
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {rows.map(r => {
+                const opt = DANA_OPTIONS.find(o => o.value === r.type)
+                const label = opt ? t(`suppliers.${opt.labelKey}`) : r.type
+                const badge = opt?.color || 'bg-slate-100 text-slate-600'
+                return (
+                  <div key={r.type} className="border border-slate-100 rounded-lg p-3">
+                    <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge}`}>{label}</span>
+                    <div className="mt-2 text-lg font-bold text-blue-600">{r.received}</div>
+                    <div className="text-[10px] text-slate-400 -mt-0.5">total bags</div>
+                    <div className="mt-1.5 text-xs flex items-center gap-2">
+                      <span className="text-orange-600">↗ {r.dispatched}</span>
+                      <span className="text-slate-300">·</span>
+                      <span className={r.remaining > 0 ? 'text-green-700 font-semibold' : 'text-slate-400 line-through'}>{r.remaining} left</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })()}
+
       <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-600 leading-relaxed">
         <span className="font-semibold text-slate-700">Broker view</span> — Anas Hadi doesn't receive Dana from this meel.
         Each row below is a <span className="font-medium">bill</span> written to a client/farm; the client carries it to the meel.

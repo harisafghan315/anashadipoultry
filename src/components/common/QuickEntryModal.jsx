@@ -331,7 +331,10 @@ export default function QuickEntryModal({ open, onClose, onCreated, editEntry = 
   const selectedProduct = products.find(p => p.id === dispForm.product_id)
   const dispTotal = (parseFloat(dispForm.quantity) || 0) * (parseFloat(dispForm.sell_price) || 0)
 
-  const showStoreCashBox = type !== 'dispatch' && type !== 'stock'
+  // Store-cash toggle is meaningless for dispatch / stock / bill — those flows
+  // don't move money in or out of the shop's drawer (a Meel Bill settles via
+  // the Saraf, not directly to Anas Hadi).
+  const showStoreCashBox = type !== 'dispatch' && type !== 'stock' && type !== 'bill'
   const storeCashLabel = type === 'payment'
     ? t('storeCash.addToStoreCash')
     : type === 'expense'

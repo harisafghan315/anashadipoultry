@@ -1,5 +1,10 @@
 export function formatDate(dateStr) {
   if (!dateStr) return '—'
+  // Pure date strings (YYYY-MM-DD, as stored in PostgreSQL date columns) get
+  // rearranged directly — never via new Date(), which would parse them as UTC
+  // midnight and then shift back a day in any timezone west of London.
+  const dateOnly = String(dateStr).match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (dateOnly) return `${dateOnly[3]}/${dateOnly[2]}/${dateOnly[1]}`
   const d = new Date(dateStr)
   if (isNaN(d.getTime())) return '—'
   return d.toLocaleDateString('en-GB') // DD/MM/YYYY

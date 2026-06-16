@@ -6,6 +6,7 @@ import Modal from './Modal'
 import PhoneInput from './PhoneInput'
 import { useFarms } from '../../hooks/useFarms'
 import { useInventory } from '../../hooks/useInventory'
+import { useSuppliers } from '../../hooks/useSuppliers'
 import { useDispatches } from '../../hooks/useDispatches'
 import { usePayments } from '../../hooks/usePayments'
 import { useExpenses } from '../../hooks/useExpenses'
@@ -18,8 +19,9 @@ import { formatCurrency } from '../../utils/formatCurrency'
 
 const TYPES = [
   { key: 'dispatch', icon: '🚚', label: 'Dispatch',   sub: 'Send items to a farm / client' },
+  { key: 'bill',     icon: '📋', label: 'Meel Bill',  sub: 'Write a Dana bill via a meel supplier' },
   { key: 'payment',  icon: '💵', label: 'Payment IN', sub: 'Money received from farm / client' },
-  { key: 'expense',  icon: '📋', label: 'Expense',    sub: 'Money paid out for shop expenses' },
+  { key: 'expense',  icon: '🧾', label: 'Expense',    sub: 'Money paid out for shop expenses' },
   { key: 'cash',     icon: '🤝', label: 'Cash Ledger',sub: 'Lend / borrow money to / from a person' },
   { key: 'stock',    icon: '📦', label: 'Stock In',   sub: 'Restock medicine or feed (opens Inventory)' },
 ]
@@ -27,6 +29,7 @@ const TYPES = [
 const EXPENSE_CATS = ['fuel', 'salary', 'rent', 'maintenance', 'utilities', 'other']
 
 const emptyDisp = { farm_id: '', product_id: '', quantity: '1', sell_price: '', purchase_price: '', date: todayStr(), notes: '' }
+const emptyBill = { farm_id: '', supplier_id: '', bill_number: '', quantity: '', price_per_bag: '', date: todayStr(), notes: '' }
 const emptyPay  = { farm_id: '', amount: '', date: todayStr(), notes: '' }
 const emptyExp  = { title: '', amount: '', category: 'other', date: todayStr(), notes: '' }
 const emptyCash  = { person_name: '', phone: '', amount: '', cashType: 'lent', date: todayStr(), notes: '' }
@@ -43,6 +46,7 @@ export default function QuickEntryModal({ open, onClose, onCreated, editEntry = 
   const { t, lang } = useLanguage()
   const { farms } = useFarms()
   const { products, addStockPurchase } = useInventory()
+  const { suppliers } = useSuppliers()
   const { createDispatch, updateDispatch } = useDispatches()
   const { recordPayment, updatePayment } = usePayments()
   const { addExpense, updateExpense } = useExpenses()
@@ -55,6 +59,7 @@ export default function QuickEntryModal({ open, onClose, onCreated, editEntry = 
   const [storeCash, setStoreCash] = useState(true)
   const [saving, setSaving] = useState(false)
   const [dispForm, setDispForm] = useState(emptyDisp)
+  const [billForm, setBillForm] = useState(emptyBill)
   const [payForm,  setPayForm]  = useState(emptyPay)
   const [expForm,  setExpForm]  = useState(emptyExp)
   const [cashForm, setCashForm] = useState(emptyCash)
@@ -99,6 +104,7 @@ export default function QuickEntryModal({ open, onClose, onCreated, editEntry = 
 
   function reset() {
     setDispForm({ ...emptyDisp, date: todayStr() })
+    setBillForm({ ...emptyBill, date: todayStr() })
     setPayForm({ ...emptyPay, date: todayStr() })
     setExpForm({ ...emptyExp, date: todayStr() })
     setCashForm({ ...emptyCash, date: todayStr() })
@@ -159,6 +165,71 @@ export default function QuickEntryModal({ open, onClose, onCreated, editEntry = 
             }],
           )
         }
+      } else if (type === 'bill') {
+        // Broker Meel Bill — same as NewDispatch's "write new bill" path, just
+        // condensed: pick farm/client + meel + bill # + bags + price. Creates
+        // supplier_dispatches (the bill), dispatch_items (linked via
+        // supplier_dispatch_id), and the parent dispatch; updates farm.total_debt.
+        if (!billForm.farm_id) { toast.error('Pick a farm / client'); return }
+        if (!billForm.supplier_id) { toast.error('Pick a Meel supplier'); return }
+        const billNo = (billForm.bill_number || '').trim()
+        if (!billNo) { toast.error('Bill # is required'); return }
+        const bags = parseFloat(billForm.quantity) || 0
+        const price = parseFloat(billForm.price_per_bag) || 0
+        if (bags <= 0) { toast.error('Bags must be > 0'); return }
+        if (price <= 0) { toast.error('Price per bag must be > 0'); return }
+
+        // Unique bill # per supplier
+        const { data: clash } = await supabase
+          .from('supplier_dispatches')
+          .select('id').eq('supplier_id', billForm.supplier_id).ilike('bill_number', billNo).limit(1)
+        if (clash && clash.length > 0) {
+          const sup = suppliers.find(s => s.id === billForm.supplier_id)
+          toast.error(`Bill # ${billNo} already exists for ${sup?.company_name || 'this supplier'}`); return
+        }
+
+        // Resolve or create the Feed (Dana) product row to satisfy dispatch_items.product_id.
+        let productId = null
+        const { data: existing } = await supabase.from('products').select('id').eq('type', 'meel').limit(1).maybeSingle()
+        if (existing) productId = existing.id
+        else {
+          const { data: created } = await supabase.from('products').insert([{
+            name: 'Feed (Dana)', type: 'meel', unit: 'bag', quantity: 0, purchase_price: price, sell_price: price,
+          }]).select('id').single()
+          productId = created?.id
+        }
+        if (!productId) { toast.error('Could not resolve Feed (Dana) product'); return }
+
+        const total = bags * price
+
+        // Insert the bill (supplier_dispatches row) — no stock change.
+        const { data: newBill, error: billErr } = await supabase.from('supplier_dispatches').insert([{
+          supplier_id: billForm.supplier_id,
+          product_id: productId,
+          product_name: 'Feed (Dana)',
+          bill_number: billNo,
+          dispatch_date: billForm.date,
+          quantity: bags,
+          price_per_bag: price,
+          sell_price_per_bag: price,
+          total_amount: total,
+          notes: billForm.notes || null,
+        }]).select('id').single()
+        if (billErr) { toast.error(billErr.message); return }
+
+        // Use createDispatch so the farm side + Roznamcha entries are created
+        // through the same pipeline as a regular dispatch.
+        ok = await createDispatch(
+          { farm_id: billForm.farm_id, dispatch_date: billForm.date, total_amount: total, notes: billForm.notes || null },
+          [{
+            product_id: productId,
+            quantity: bags,
+            sell_price: price,
+            purchase_price: price,
+            batch_number: billNo,
+            supplier_dispatch_id: newBill.id,
+          }],
+        )
       } else if (type === 'payment') {
         if (!payForm.farm_id) { toast.error('Pick a farm / client'); return }
         const amt = parseFloat(payForm.amount) || 0
@@ -277,7 +348,7 @@ export default function QuickEntryModal({ open, onClose, onCreated, editEntry = 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Type selector — hidden in edit mode (the type can't change) */}
         {!isEdit && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             {TYPES.map(tt => (
               <button
                 key={tt.key}
@@ -361,6 +432,84 @@ export default function QuickEntryModal({ open, onClose, onCreated, editEntry = 
             <p className="text-xs text-slate-400">Need multiple products in one dispatch? Use the full <strong>Dispatches → New Dispatch</strong> wizard.</p>
           </div>
         )}
+
+        {/* Meel Bill fields — broker flow */}
+        {type === 'bill' && (() => {
+          const meelSuppliers = suppliers.filter(s => (s.type || 'meel') === 'meel')
+          const billTotal = (parseFloat(billForm.quantity) || 0) * (parseFloat(billForm.price_per_bag) || 0)
+          return (
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Send to *</label>
+                <select required value={billForm.farm_id} onChange={e => setBillForm(f => ({ ...f, farm_id: e.target.value }))}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
+                  <option value="">— pick farm or client —</option>
+                  {activeFarms.length > 0 && (
+                    <optgroup label="🏠 Farms / فارم‌ها">
+                      {activeFarms.map(f => <option key={f.id} value={f.id}>{lf(f, 'name', lang)}</option>)}
+                    </optgroup>
+                  )}
+                  {activeClients.length > 0 && (
+                    <optgroup label="🏪 Clients / مشتریان">
+                      {activeClients.map(f => <option key={f.id} value={f.id}>{lf(f, 'name', lang)}</option>)}
+                    </optgroup>
+                  )}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Meel supplier *</label>
+                <select required value={billForm.supplier_id} onChange={e => setBillForm(f => ({ ...f, supplier_id: e.target.value }))}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
+                  <option value="">— pick a meel —</option>
+                  {meelSuppliers.map(s => <option key={s.id} value={s.id}>{s.company_name}</option>)}
+                </select>
+                {meelSuppliers.length === 0 && (
+                  <p className="text-xs text-amber-700 mt-1">No meel suppliers yet — add one under Suppliers first.</p>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Bill # *</label>
+                  <input required value={billForm.bill_number}
+                    onChange={e => setBillForm(f => ({ ...f, bill_number: e.target.value }))}
+                    placeholder="e.g. 123"
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Bags *</label>
+                  <input required type="number" min="0.01" step="0.01" value={billForm.quantity}
+                    onChange={e => setBillForm(f => ({ ...f, quantity: e.target.value }))}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Price / bag (AFN) *</label>
+                  <input required type="number" min="0.01" step="0.01" value={billForm.price_per_bag}
+                    onChange={e => setBillForm(f => ({ ...f, price_per_bag: e.target.value }))}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.date')}</label>
+                  <input type="date" value={billForm.date} onChange={e => setBillForm(f => ({ ...f, date: e.target.value }))}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">{t('common.notes')}</label>
+                <input value={billForm.notes} onChange={e => setBillForm(f => ({ ...f, notes: e.target.value }))}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+              </div>
+              {billTotal > 0 && (
+                <div className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm flex justify-between">
+                  <span className="text-slate-600">Total</span>
+                  <span className="font-bold text-[#0F5257]">{formatCurrency(billTotal)}</span>
+                </div>
+              )}
+              <p className="text-xs text-slate-400">No inventory is touched — Anas Hadi only writes the bill. Client picks up Dana from the meel directly; settlement happens via Saraf.</p>
+            </div>
+          )
+        })()}
 
         {/* Payment IN fields */}
         {type === 'payment' && (

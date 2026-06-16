@@ -104,6 +104,32 @@ export default function SarafDetail() {
   const activeFarms = farms.filter(f => f.is_active)
   const activeSuppliers = suppliers.filter(s => s.type === 'meel' || !s.type) // meel + legacy
 
+  // Generic balance-per-party view. Saraf is a tracking hub: clients deposit
+  // lump sums (not tied to any one bill), Saraf disburses to whoever needs paying.
+  // For each party we summarise how much they're up / down on this Saraf.
+  const clientBalances = (() => {
+    const m = {}
+    for (const p of inbound) {
+      const fid = p.farm_id
+      if (!fid) continue
+      if (!m[fid]) m[fid] = { id: fid, name: lf(p.farms, 'name', lang) || '—', kind: p.farms?.kind, total: 0, count: 0 }
+      m[fid].total += parseFloat(p.amount) || 0
+      m[fid].count += 1
+    }
+    return Object.values(m).sort((a, b) => b.total - a.total)
+  })()
+  const supplierBalances = (() => {
+    const m = {}
+    for (const p of outbound) {
+      const sid = p.supplier_id
+      if (!sid) continue
+      if (!m[sid]) m[sid] = { id: sid, name: p.suppliers?.company_name || '—', total: 0, count: 0 }
+      m[sid].total += parseFloat(p.amount) || 0
+      m[sid].count += 1
+    }
+    return Object.values(m).sort((a, b) => b.total - a.total)
+  })()
+
   const balanceCard = balance > 0
     ? { color: 'bg-amber-50 border-amber-200 text-amber-700', label: 'Currently holding' }
     : balance < 0
@@ -145,6 +171,58 @@ export default function SarafDetail() {
           <p className="text-2xl font-bold">{formatCurrency(Math.abs(balance))}</p>
         </div>
       </div>
+
+      {/* Balances by party — the heart of the generic Saraf view. Each row is
+          a counterparty (client or supplier) and their total flow through this
+          Saraf, so you can answer "what is sitting with Saraf for Test?" or
+          "how much has Saraf paid out to دانا سپلایر in total?" at a glance. */}
+      {(clientBalances.length > 0 || supplierBalances.length > 0) && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="bg-white rounded-xl border border-slate-100 shadow-sm">
+            <div className="px-5 py-3 border-b border-slate-100">
+              <h3 className="font-semibold text-slate-700 text-sm">Clients holding money with Saraf</h3>
+              <p className="text-xs text-slate-500 mt-0.5">Sum of every payment they've sent in</p>
+            </div>
+            {clientBalances.length === 0 ? (
+              <p className="text-center py-5 text-slate-400 text-sm">— no client payments yet —</p>
+            ) : (
+              <div className="divide-y divide-slate-50">
+                {clientBalances.map(c => (
+                  <div key={c.id} className="px-5 py-2.5 flex items-center justify-between text-sm">
+                    <div className="min-w-0">
+                      <p className="font-medium text-slate-800 truncate">{c.name} {c.kind === 'client' && <span className="text-xs text-slate-400">· Client</span>}</p>
+                      <p className="text-xs text-slate-500">{c.count} payment{c.count === 1 ? '' : 's'}</p>
+                    </div>
+                    <p className="font-bold text-green-700">{formatCurrency(c.total)}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="bg-white rounded-xl border border-slate-100 shadow-sm">
+            <div className="px-5 py-3 border-b border-slate-100">
+              <h3 className="font-semibold text-slate-700 text-sm">Suppliers paid by Saraf</h3>
+              <p className="text-xs text-slate-500 mt-0.5">Sum of every payment Saraf has released to them</p>
+            </div>
+            {supplierBalances.length === 0 ? (
+              <p className="text-center py-5 text-slate-400 text-sm">— no supplier payouts yet —</p>
+            ) : (
+              <div className="divide-y divide-slate-50">
+                {supplierBalances.map(s => (
+                  <div key={s.id} className="px-5 py-2.5 flex items-center justify-between text-sm">
+                    <div className="min-w-0">
+                      <p className="font-medium text-slate-800 truncate">{s.name}</p>
+                      <p className="text-xs text-slate-500">{s.count} payment{s.count === 1 ? '' : 's'}</p>
+                    </div>
+                    <p className="font-bold text-red-700">{formatCurrency(s.total)}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* IN from clients */}
@@ -233,8 +311,8 @@ export default function SarafDetail() {
           </div>
           {inForm.farm_id && (
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">For bill *</label>
-              <select required value={inForm.supplier_dispatch_id}
+              <label className="block text-xs font-medium text-slate-600 mb-1">For bill <span className="text-slate-400 font-normal">(optional)</span></label>
+              <select value={inForm.supplier_dispatch_id}
                 onChange={e => {
                   const bill = clientBills.find(b => b.id === e.target.value)
                   setInForm(f => ({
@@ -297,8 +375,8 @@ export default function SarafDetail() {
           </div>
           {outForm.supplier_id && (
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">For bill *</label>
-              <select required value={outForm.supplier_dispatch_id}
+              <label className="block text-xs font-medium text-slate-600 mb-1">For bill <span className="text-slate-400 font-normal">(optional)</span></label>
+              <select value={outForm.supplier_dispatch_id}
                 onChange={e => {
                   const bill = supplierBills.find(b => b.id === e.target.value)
                   setOutForm(f => ({

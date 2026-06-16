@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Truck, CreditCard, Plus, Trash2, Edit2, ChevronDown, ChevronRight as ChevronRightIcon } from 'lucide-react'
 import { useSupplierDetail } from '../hooks/useSuppliers'
 import Modal from '../components/common/Modal'
@@ -113,6 +113,7 @@ export default function SupplierDetail() {
     return sent > 0 && sent >= (d.quantity || 0)
   }).length
 
+  const navigate = useNavigate()
   const BackIcon = isRTL ? ArrowRight : ArrowLeft
 
   function openNewDispatch() {
@@ -254,18 +255,14 @@ export default function SupplierDetail() {
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {/* Broker-model stats: Anas Hadi is a middleman, not a stockist.
+          Total Bags = bags ordered via this meel through bills; Total Commission
+          is what we keep per bag. Stock-only stats (Dispatched / Remaining bags)
+          are hidden. */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-4">
-          <div className="text-xs text-slate-500 mb-1">{t('suppliers.totalBags')}</div>
+          <div className="text-xs text-slate-500 mb-1">Total Bags Billed / مجموع بل‌ها</div>
           <div className="text-lg font-bold text-blue-600">{totalBags}</div>
-        </div>
-        <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-4">
-          <div className="text-xs text-slate-500 mb-1">{t('suppliers.dispatchedBags')}</div>
-          <div className="text-lg font-bold text-orange-600">{dispatchedBags}</div>
-        </div>
-        <div className={`rounded-xl border shadow-sm p-4 ${remainingBags <= 0 ? 'bg-red-50 border-red-100' : 'bg-green-50 border-green-100'}`}>
-          <div className="text-xs text-slate-500 mb-1">{t('suppliers.remainingBags')}</div>
-          <div className={`text-lg font-bold ${remainingBags <= 0 ? 'text-red-600' : 'text-green-700'}`}>{remainingBags}</div>
         </div>
         <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-4">
           <div className="text-xs text-slate-500 mb-1">{t('suppliers.totalCommission')}</div>
@@ -273,17 +270,23 @@ export default function SupplierDetail() {
         </div>
       </div>
 
-      {/* Inbound Dispatches */}
+      <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-600 leading-relaxed">
+        <span className="font-semibold text-slate-700">Broker view</span> — Anas Hadi doesn't receive Dana from this meel.
+        Each row below is a <span className="font-medium">bill</span> written to a client/farm; the client carries it to the meel.
+        Payments to this meel come from the <Link to="/sarafs" className="text-[#0F5257] hover:text-[#14B8A6] font-medium underline">Saraf</Link>.
+      </div>
+
+      {/* Bills Written via this meel */}
       <div className="bg-white rounded-xl border border-slate-100 shadow-sm">
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
           <h3 className="font-semibold text-slate-700 flex items-center gap-2">
-            <Truck size={16} /> {t('suppliers.dispatches')}
+            <Truck size={16} /> Bills Written / بل‌های نوشته‌شده
           </h3>
           <button
-            onClick={openNewDispatch}
+            onClick={() => navigate('/dispatches/new')}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F5257] text-white rounded-lg text-sm font-medium hover:bg-[#14B8A6] transition-colors"
           >
-            <Plus size={14} /> {t('suppliers.receiveDispatch')}
+            <Plus size={14} /> Write New Bill
           </button>
         </div>
 

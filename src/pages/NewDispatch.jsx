@@ -603,19 +603,41 @@ export default function NewDispatch() {
                       onChange={e => updateItem(idx, 'quantity', e.target.value)}
                       className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
                   </div>
-                  <div className="col-span-2">
-                    <input type="number" min="0" step="0.01" value={item.purchase_price}
-                      onChange={e => updateItem(idx, 'purchase_price', e.target.value)}
-                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
-                  </div>
-                  <div className="col-span-2">
-                    <input type="number" min="0" step="0.01" value={item.sell_price}
-                      onChange={e => updateItem(idx, 'sell_price', e.target.value)}
-                      className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
-                  </div>
-                  <div className="col-span-1 text-xs font-semibold text-green-600">
-                    {formatCurrency(((parseFloat(item.sell_price) || 0) - (parseFloat(item.purchase_price) || 0)) * (parseFloat(item.quantity) || 0))}
-                  </div>
+                  {item.is_new_bill ? (
+                    // Broker row: ONE price per bag; buy/sell/profit are not concepts
+                    // here. Span 5 cols (was Buy 2 + Sell 2 + Profit 1) for the price input.
+                    <>
+                      <div className="col-span-2"></div>
+                      <div className="col-span-2">
+                        <input type="number" min="0" step="0.01" value={item.sell_price}
+                          onChange={e => {
+                            updateItem(idx, 'sell_price', e.target.value)
+                            updateItem(idx, 'purchase_price', e.target.value)
+                          }}
+                          placeholder="Price/bag *"
+                          className={`w-full px-2 py-1.5 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 ${(parseFloat(item.sell_price) || 0) <= 0 ? 'border-red-300 bg-red-50' : 'border-slate-200'}`} />
+                      </div>
+                      <div className="col-span-1 text-xs font-semibold text-[#0F5257] text-end pe-2">
+                        {formatCurrency((parseFloat(item.sell_price) || 0) * (parseFloat(item.quantity) || 0))}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="col-span-2">
+                        <input type="number" min="0" step="0.01" value={item.purchase_price}
+                          onChange={e => updateItem(idx, 'purchase_price', e.target.value)}
+                          className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+                      </div>
+                      <div className="col-span-2">
+                        <input type="number" min="0" step="0.01" value={item.sell_price}
+                          onChange={e => updateItem(idx, 'sell_price', e.target.value)}
+                          className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30" />
+                      </div>
+                      <div className="col-span-1 text-xs font-semibold text-green-600">
+                        {formatCurrency(((parseFloat(item.sell_price) || 0) - (parseFloat(item.purchase_price) || 0)) * (parseFloat(item.quantity) || 0))}
+                      </div>
+                    </>
+                  )}
                   <div className="col-span-1 flex justify-end">
                     <button onClick={() => removeItem(idx)} className="p-1 text-red-400 hover:text-red-600">
                       <Trash2 size={14} />

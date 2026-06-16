@@ -407,13 +407,13 @@ export default function NewDispatch() {
             <select value={farmId} onChange={e => setFarmId(e.target.value)}
               className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               <option value="">{t('dispatches.chooseFarm')}</option>
-              <optgroup label={t('nav.farms')}>
+              <optgroup label="🏠 Farms / فارم‌ها">
                 {farms.filter(f => f.is_active && f.kind !== 'client').map(f => (
                   <option key={f.id} value={f.id}>{lf(f, 'name', lang)} — {lf(f, 'owner_name', lang)}</option>
                 ))}
               </optgroup>
               {farms.some(f => f.is_active && f.kind === 'client') && (
-                <optgroup label={t('nav.clients')}>
+                <optgroup label="🏪 Clients / مشتریان">
                   {farms.filter(f => f.is_active && f.kind === 'client').map(f => (
                     <option key={f.id} value={f.id}>{lf(f, 'name', lang)} — {lf(f, 'owner_name', lang)}</option>
                   ))}

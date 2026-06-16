@@ -85,8 +85,8 @@ export function useSarafDetail(sarafId) {
     setLoading(true)
     const [sRes, inRes, outRes] = await Promise.all([
       supabase.from('sarafs').select('*').eq('id', sarafId).single(),
-      supabase.from('payments').select('*, farms(name, name_fa, name_ps)').eq('saraf_id', sarafId).order('payment_date', { ascending: false }),
-      supabase.from('supplier_payments').select('*, suppliers(company_name)').eq('saraf_id', sarafId).order('payment_date', { ascending: false }),
+      supabase.from('payments').select('*, farms(name, name_fa, name_ps), supplier_dispatches(bill_number, suppliers(company_name))').eq('saraf_id', sarafId).order('payment_date', { ascending: false }),
+      supabase.from('supplier_payments').select('*, suppliers(company_name), supplier_dispatches(bill_number)').eq('saraf_id', sarafId).order('payment_date', { ascending: false }),
     ])
     if (sRes.error) { toast.error(sRes.error.message); setLoading(false); return }
     setSaraf(sRes.data)
@@ -97,8 +97,9 @@ export function useSarafDetail(sarafId) {
 
   useEffect(() => { load() }, [load])
 
-  // Record money received from a client → Saraf. Also reduces the client/farm
-  // debt the same way a normal payment does.
+  // Record money received from a client → Saraf, optionally tied to a specific
+  // bill via supplier_dispatch_id. Reduces the client/farm debt the same way a
+  // normal payment does.
   async function recordIn(data) {
     const amount = parseFloat(data.amount) || 0
     if (amount <= 0) { toast.error('Amount must be > 0'); return false }
@@ -109,6 +110,7 @@ export function useSarafDetail(sarafId) {
       payment_date: data.payment_date,
       notes: data.notes?.trim() || null,
       saraf_id: sarafId,
+      supplier_dispatch_id: data.supplier_dispatch_id || null,
     }])
     if (error) { toast.error(error.message); return false }
     const { data: f } = await supabase.from('farms').select('total_debt').eq('id', data.farm_id).single()
@@ -118,7 +120,8 @@ export function useSarafDetail(sarafId) {
     return true
   }
 
-  // Record money the Saraf released to a meel supplier.
+  // Record money the Saraf released to a meel supplier, optionally tied to a
+  // specific bill.
   async function recordOut(data) {
     const amount = parseFloat(data.amount) || 0
     if (amount <= 0) { toast.error('Amount must be > 0'); return false }
@@ -130,6 +133,7 @@ export function useSarafDetail(sarafId) {
       payment_date: data.payment_date,
       notes: data.notes?.trim() || null,
       saraf_id: sarafId,
+      supplier_dispatch_id: data.supplier_dispatch_id || null,
     }])
     if (error) { toast.error(error.message); return false }
     toast.success('Payment recorded')

@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Plus, Trash2, Repeat, ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { useSarafDetail } from '../hooks/useSarafs'
 import { useFarms } from '../hooks/useFarms'
 import { useSuppliers } from '../hooks/useSuppliers'
+import { supabase } from '../config/supabase'
 import Modal from '../components/common/Modal'
 import ConfirmDialog from '../components/common/ConfirmDialog'
 import { formatCurrency } from '../utils/formatCurrency'
@@ -11,8 +12,8 @@ import { formatDate, todayStr } from '../utils/dateHelpers'
 import { useLanguage } from '../contexts/LanguageContext'
 import { lf } from '../utils/localizedField'
 
-const emptyIn = { farm_id: '', amount: '', payment_date: todayStr(), notes: '' }
-const emptyOut = { supplier_id: '', amount: '', payment_date: todayStr(), notes: '' }
+const emptyIn = { farm_id: '', supplier_dispatch_id: '', amount: '', payment_date: todayStr(), notes: '' }
+const emptyOut = { supplier_id: '', supplier_dispatch_id: '', amount: '', payment_date: todayStr(), notes: '' }
 
 export default function SarafDetail() {
   const { id } = useParams()
@@ -27,6 +28,48 @@ export default function SarafDetail() {
   const [outForm, setOutForm] = useState(emptyOut)
   const [saving, setSaving] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null) // { kind:'in'|'out', row }
+
+  // Bills written for the selected client (IN form) / bills via the chosen
+  // supplier (OUT form). Loaded on demand when the modal opens or its key
+  // dropdown changes — keeps initial page fast.
+  const [clientBills, setClientBills] = useState([])
+  const [supplierBills, setSupplierBills] = useState([])
+
+  useEffect(() => {
+    if (txModal !== 'in' || !inForm.farm_id) { setClientBills([]); return }
+    ;(async () => {
+      // Bills written FOR this client = supplier_dispatches rows linked via a
+      // dispatch_items row whose parent dispatches.farm_id matches.
+      const { data: items } = await supabase
+        .from('dispatch_items')
+        .select('supplier_dispatch_id, dispatches!inner(farm_id), supplier_dispatches(id, bill_number, dispatch_date, quantity, price_per_bag, total_amount, suppliers(company_name))')
+        .eq('dispatches.farm_id', inForm.farm_id)
+        .not('supplier_dispatch_id', 'is', null)
+      const seen = new Set()
+      const bills = []
+      for (const it of items || []) {
+        const b = it.supplier_dispatches
+        if (b && !seen.has(b.id)) {
+          seen.add(b.id)
+          bills.push(b)
+        }
+      }
+      bills.sort((a, b) => (b.dispatch_date || '').localeCompare(a.dispatch_date || ''))
+      setClientBills(bills)
+    })()
+  }, [txModal, inForm.farm_id])
+
+  useEffect(() => {
+    if (txModal !== 'out' || !outForm.supplier_id) { setSupplierBills([]); return }
+    ;(async () => {
+      const { data } = await supabase
+        .from('supplier_dispatches')
+        .select('id, bill_number, dispatch_date, quantity, price_per_bag, total_amount')
+        .eq('supplier_id', outForm.supplier_id)
+        .order('dispatch_date', { ascending: false })
+      setSupplierBills(data || [])
+    })()
+  }, [txModal, outForm.supplier_id])
 
   const BackIcon = isRTL ? ArrowRight : ArrowLeft
 
@@ -120,12 +163,18 @@ export default function SarafDetail() {
             <div className="divide-y divide-slate-50 max-h-96 overflow-y-auto">
               {inbound.map(p => (
                 <div key={p.id} className="px-5 py-3 flex items-center gap-3">
-                  <div className="flex-1">
-                    <p className="font-medium text-slate-800">{lf(p.farms, 'name', lang) || '—'}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-slate-800 truncate">{lf(p.farms, 'name', lang) || '—'}</p>
+                    {p.supplier_dispatches && (
+                      <p className="text-xs text-slate-600 mt-0.5">
+                        → <span className="font-mono bg-blue-100 text-blue-700 px-1 rounded">Bill #{p.supplier_dispatches.bill_number || '—'}</span>
+                        {p.supplier_dispatches.suppliers?.company_name && <span className="text-slate-500"> ({p.supplier_dispatches.suppliers.company_name})</span>}
+                      </p>
+                    )}
                     <p className="text-xs text-slate-500">{formatDate(p.payment_date)}{p.notes ? ` · ${p.notes}` : ''}</p>
                   </div>
-                  <p className="font-bold text-green-700">{formatCurrency(p.amount)}</p>
-                  <button onClick={() => setDeleteTarget({ kind: 'in', row: p })} className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg">
+                  <p className="font-bold text-green-700 shrink-0">{formatCurrency(p.amount)}</p>
+                  <button onClick={() => setDeleteTarget({ kind: 'in', row: p })} className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg shrink-0">
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -150,12 +199,17 @@ export default function SarafDetail() {
             <div className="divide-y divide-slate-50 max-h-96 overflow-y-auto">
               {outbound.map(p => (
                 <div key={p.id} className="px-5 py-3 flex items-center gap-3">
-                  <div className="flex-1">
-                    <p className="font-medium text-slate-800">{p.suppliers?.company_name || '—'}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-slate-800 truncate">{p.suppliers?.company_name || '—'}</p>
+                    {p.supplier_dispatches && (
+                      <p className="text-xs text-slate-600 mt-0.5">
+                        → <span className="font-mono bg-blue-100 text-blue-700 px-1 rounded">Bill #{p.supplier_dispatches.bill_number || '—'}</span>
+                      </p>
+                    )}
                     <p className="text-xs text-slate-500">{formatDate(p.payment_date)}{p.notes ? ` · ${p.notes}` : ''}</p>
                   </div>
-                  <p className="font-bold text-red-700">{formatCurrency(p.amount)}</p>
-                  <button onClick={() => setDeleteTarget({ kind: 'out', row: p })} className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg">
+                  <p className="font-bold text-red-700 shrink-0">{formatCurrency(p.amount)}</p>
+                  <button onClick={() => setDeleteTarget({ kind: 'out', row: p })} className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg shrink-0">
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -169,13 +223,39 @@ export default function SarafDetail() {
       <Modal open={txModal === 'in'} onClose={() => setTxModal(null)} title="Record money IN from a client">
         <form onSubmit={submitIn} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-slate-600 mb-1">Client / Farm *</label>
-            <select required value={inForm.farm_id} onChange={e => setInForm(f => ({ ...f, farm_id: e.target.value }))}
+            <label className="block text-xs font-medium text-slate-600 mb-1">From client / farm *</label>
+            <select required value={inForm.farm_id}
+              onChange={e => setInForm(f => ({ ...f, farm_id: e.target.value, supplier_dispatch_id: '', amount: '' }))}
               className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               <option value="">— pick farm or client —</option>
               {activeFarms.map(f => <option key={f.id} value={f.id}>{lf(f, 'name', lang)} ({f.kind === 'client' ? 'Client' : 'Farm'})</option>)}
             </select>
           </div>
+          {inForm.farm_id && (
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">For bill *</label>
+              <select required value={inForm.supplier_dispatch_id}
+                onChange={e => {
+                  const bill = clientBills.find(b => b.id === e.target.value)
+                  setInForm(f => ({
+                    ...f,
+                    supplier_dispatch_id: e.target.value,
+                    amount: bill ? String(bill.total_amount || (bill.quantity || 0) * (bill.price_per_bag || 0)) : f.amount,
+                  }))
+                }}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
+                <option value="">— pick a bill —</option>
+                {clientBills.map(b => (
+                  <option key={b.id} value={b.id}>
+                    Bill #{b.bill_number || '—'} · {b.suppliers?.company_name || 'meel'} · {b.quantity} bags · {formatCurrency(b.total_amount)}
+                  </option>
+                ))}
+              </select>
+              {clientBills.length === 0 && (
+                <p className="text-xs text-amber-700 mt-1">No bills written for this client yet.</p>
+              )}
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Amount (AFN) *</label>
@@ -207,13 +287,39 @@ export default function SarafDetail() {
       <Modal open={txModal === 'out'} onClose={() => setTxModal(null)} title="Record money OUT to a meel supplier">
         <form onSubmit={submitOut} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-slate-600 mb-1">Supplier *</label>
-            <select required value={outForm.supplier_id} onChange={e => setOutForm(f => ({ ...f, supplier_id: e.target.value }))}
+            <label className="block text-xs font-medium text-slate-600 mb-1">To meel supplier *</label>
+            <select required value={outForm.supplier_id}
+              onChange={e => setOutForm(f => ({ ...f, supplier_id: e.target.value, supplier_dispatch_id: '', amount: '' }))}
               className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
               <option value="">— pick a supplier —</option>
               {activeSuppliers.map(s => <option key={s.id} value={s.id}>{s.company_name}</option>)}
             </select>
           </div>
+          {outForm.supplier_id && (
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">For bill *</label>
+              <select required value={outForm.supplier_dispatch_id}
+                onChange={e => {
+                  const bill = supplierBills.find(b => b.id === e.target.value)
+                  setOutForm(f => ({
+                    ...f,
+                    supplier_dispatch_id: e.target.value,
+                    amount: bill ? String(bill.total_amount || (bill.quantity || 0) * (bill.price_per_bag || 0)) : f.amount,
+                  }))
+                }}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30">
+                <option value="">— pick a bill —</option>
+                {supplierBills.map(b => (
+                  <option key={b.id} value={b.id}>
+                    Bill #{b.bill_number || '—'} · {formatDate(b.dispatch_date)} · {b.quantity} bags · {formatCurrency(b.total_amount)}
+                  </option>
+                ))}
+              </select>
+              {supplierBills.length === 0 && (
+                <p className="text-xs text-amber-700 mt-1">No bills exist for this supplier yet.</p>
+              )}
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Amount (AFN) *</label>

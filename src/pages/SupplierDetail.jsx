@@ -453,8 +453,8 @@ export default function SupplierDetail() {
                   <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
                     Dispatched to farms ({outbounds.length})
                   </div>
-                  <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-                    <table className="w-full text-sm">
+                  <div className="bg-white rounded-lg border border-slate-200 overflow-x-auto">
+                    <table className="w-full text-sm min-w-[480px]">
                       <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
                           <th className="text-start px-3 py-2 text-xs font-semibold text-slate-500">{t('common.date')}</th>

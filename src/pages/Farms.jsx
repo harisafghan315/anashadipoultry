@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Phone, MapPin, Edit2, ChevronRight, Building2, Trash2 } from 'lucide-react'
 import { useFarms } from '../hooks/useFarms'
+import { useEntityDebts } from '../hooks/useEntityDebts'
 import Modal from '../components/common/Modal'
 import ConfirmDialog from '../components/common/ConfirmDialog'
 import PhoneInput from '../components/common/PhoneInput'
@@ -16,6 +17,10 @@ export default function Farms({ entityKind = 'farm' }) {
   const navigate = useNavigate()
   const { t, lang } = useLanguage()
   const { farms, loading, addFarm, updateFarm, deleteFarm } = useFarms({ kind: entityKind })
+  // Live debt straight from transactions — the stored total_debt drifts (overpayments
+  // get clamped away), so the card matched neither reality nor the detail page.
+  const { debts } = useEntityDebts(entityKind)
+  const debtOf = (farm) => debts[farm.id] ?? 0
   const isClient = entityKind === 'client'
   const detailBase = isClient ? '/clients' : '/farms'
   const L = {
@@ -50,11 +55,13 @@ export default function Farms({ entityKind = 'farm' }) {
     .filter(f => !search || f.name.toLowerCase().includes(search.toLowerCase()) || (f.owner_name || '').toLowerCase().includes(search.toLowerCase()))
     // Highest debt first so the farms that actually need attention are at the top;
     // farms with zero balance sink to the bottom.
-    .sort((a, b) => (b.total_debt || 0) - (a.total_debt || 0))
+    .sort((a, b) => debtOf(b) - debtOf(a))
   const ownFarms = filtered.filter(f => (f.ownership || 'own') === 'own')
   const contractorFarms = filtered.filter(f => f.ownership === 'contractor')
 
-  const renderCard = (farm) => (
+  const renderCard = (farm) => {
+   const debt = debtOf(farm)
+   return (
     <div
       key={farm.id}
       onClick={() => navigate(`${detailBase}/${farm.id}`)}
@@ -76,12 +83,12 @@ export default function Farms({ entityKind = 'farm' }) {
         </div>
       </div>
 
-      <div className={`rounded-xl p-3 mb-4 ${farm.total_debt > 0 ? 'bg-red-50' : 'bg-green-50'}`}>
-        <p className={`text-xs font-medium mb-0.5 ${farm.total_debt > 0 ? 'text-red-600' : 'text-green-600'}`}>
-          {farm.total_debt > 0 ? t('farms.currentDebt') : t('common.balance')}
+      <div className={`rounded-xl p-3 mb-4 ${debt > 0 ? 'bg-red-50' : 'bg-green-50'}`}>
+        <p className={`text-xs font-medium mb-0.5 ${debt > 0 ? 'text-red-600' : 'text-green-600'}`}>
+          {debt > 0 ? t('farms.currentDebt') : t('common.balance')}
         </p>
-        <p className={`text-xl font-bold ${farm.total_debt > 0 ? 'text-red-700' : 'text-green-700'}`}>
-          {formatCurrency(farm.total_debt)}
+        <p className={`text-xl font-bold ${debt > 0 ? 'text-red-700' : 'text-green-700'}`}>
+          {formatCurrency(debt)}
         </p>
       </div>
 
@@ -112,7 +119,8 @@ export default function Farms({ entityKind = 'farm' }) {
         <span className="text-xs text-slate-400 shrink-0">{formatCurrency(farm.total_profit_generated)}</span>
       </div>
     </div>
-  )
+   )
+  }
 
   if (loading) {
     return <div className="flex items-center justify-center h-64 text-slate-400">
